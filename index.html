@@ -172,7 +172,6 @@
                         <path d="M70,110 Q100,60 130,110 Q100,165 70,110 Z" fill="#f59e0b" stroke="#b45309" stroke-width="2" />
                         <path d="M100,105 Q125,75 145,115 T100,105 Z" fill="#fbbf24" opacity="0.8" />
                         <path d="M85,80 Q100,55 115,80" fill="#65a30d" />
-                        <path id="textPathTop" d="M 30,100 A 70,70 0 0,1 170,100" fill="none" />
                         <text font-family="Prompt, sans-serif" font-size="14" font-weight="bold" fill="#b45309" text-anchor="middle">
                             <textPath href="#textPathTop" startOffset="50%">บริษัท รุ่งเจริญ</textPath>
                         </text>
@@ -192,7 +191,7 @@
 
             <div class="flex items-center gap-2 text-xs flex-wrap">
                 <div id="autosave-indicator" class="hidden"></div>
-                <button onclick="toggleOnlineSyncModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-xl border border-emerald-400/40 backdrop-blur-sm transition flex items-center gap-1.5 font-medium shadow-sm" title="ตั้งค่าและดูสถานะเชื่อมต่อคลาวด์ออนไลน์">
+                <button onclick="toggleOnlineSyncModal()" class="bg-emerald-800 hover:bg-emerald-900 text-white px-3.5 py-2 rounded-xl border border-emerald-400/40 backdrop-blur-sm transition flex items-center gap-1.5 font-medium shadow-sm" title="ตั้งค่าและดูสถานะเชื่อมต่อคลาวด์ออนไลน์">
                     <span id="online-status-dot" class="w-2.5 h-2.5 rounded-full bg-emerald-300 animate-ping"></span>
                     <span id="online-status-text">ระบบออนไลน์ (Cloud)</span>
                 </button>
@@ -323,6 +322,46 @@
             </div>
         </div>
 
+
+
+        <!-- NEW DAILY SUMMARY CARDS SECTION (ทำส้ม, ขายส้ม, ซื้อส้ม) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <!-- สรุปทำส้มแต่ละวัน -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-amber-200/80 space-y-3">
+                <div class="flex items-center justify-between border-b border-amber-100 pb-2 cursor-pointer select-none" onclick="toggleDailySection('process')">
+                    <h4 class="font-bold text-amber-900 text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-days text-amber-600"></i> สรุปทำส้มแต่ละวัน
+                        <i id="daily-process-toggle-icon" class="fa-solid fa-chevron-up text-amber-600 text-xs transition-transform duration-300 ml-1"></i>
+                    </h4>
+                    <span id="daily-process-count" class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-0.5 rounded-full">0 วัน</span>
+                </div>
+                <div id="daily-process-container" class="max-h-[220px] overflow-y-auto pr-1 space-y-2 text-xs transition-all duration-300"></div>
+            </div>
+
+            <!-- สรุปขายส้มแต่ละวัน -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-orange-200/80 space-y-3">
+                <div class="flex items-center justify-between border-b border-orange-100 pb-2 cursor-pointer select-none" onclick="toggleDailySection('sales')">
+                    <h4 class="font-bold text-orange-900 text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-days text-orange-600"></i> สรุปขายส้มแต่ละวัน
+                        <i id="daily-sales-toggle-icon" class="fa-solid fa-chevron-up text-orange-600 text-xs transition-transform duration-300 ml-1"></i>
+                    </h4>
+                    <span id="daily-sales-count" class="bg-orange-100 text-orange-800 text-xs font-bold px-2.5 py-0.5 rounded-full">0 วัน</span>
+                </div>
+                <div id="daily-sales-container" class="max-h-[220px] overflow-y-auto pr-1 space-y-2 text-xs transition-all duration-300"></div>
+            </div>
+
+            <!-- สรุปซื้อส้มแต่ละวัน -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-indigo-200/80 space-y-3">
+                <div class="flex items-center justify-between border-b border-indigo-100 pb-2 cursor-pointer select-none" onclick="toggleDailySection('buy')">
+                    <h4 class="font-bold text-indigo-900 text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-days text-indigo-600"></i> สรุปซื้อส้มแต่ละวัน
+                        <i id="daily-buy-toggle-icon" class="fa-solid fa-chevron-up text-indigo-600 text-xs transition-transform duration-300 ml-1"></i>
+                    </h4>
+                    <span id="daily-buy-count" class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-0.5 rounded-full">0 วัน</span>
+                </div>
+                <div id="daily-buy-container" class="max-h-[220px] overflow-y-auto pr-1 space-y-2 text-xs transition-all duration-300"></div>
+            </div>
+        </div>
         <!-- Debtor Summary Cards Section -->
         <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 space-y-3">
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-100 pb-3 cursor-pointer select-none" onclick="toggleDebtorSection()">
@@ -378,46 +417,6 @@
             
             <div id="debtor-cards-container" class="max-h-[320px] overflow-y-auto pr-1 transition-all duration-300"></div>
         </div>
-
-        <!-- NEW DAILY SUMMARY CARDS SECTION (ทำส้ม, ขายส้ม, ซื้อส้ม) -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <!-- สรุปทำส้มแต่ละวัน -->
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-amber-200/80 space-y-3">
-                <div class="flex items-center justify-between border-b border-amber-100 pb-2 cursor-pointer select-none" onclick="toggleDailySection('process')">
-                    <h4 class="font-bold text-amber-900 text-sm flex items-center gap-2">
-                        <i class="fa-solid fa-calendar-days text-amber-600"></i> สรุปทำส้มแต่ละวัน
-                        <i id="daily-process-toggle-icon" class="fa-solid fa-chevron-up text-amber-600 text-xs transition-transform duration-300 ml-1"></i>
-                    </h4>
-                    <span id="daily-process-count" class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-0.5 rounded-full">0 วัน</span>
-                </div>
-                <div id="daily-process-container" class="max-h-[220px] overflow-y-auto pr-1 space-y-2 text-xs transition-all duration-300"></div>
-            </div>
-
-            <!-- สรุปขายส้มแต่ละวัน -->
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-orange-200/80 space-y-3">
-                <div class="flex items-center justify-between border-b border-orange-100 pb-2 cursor-pointer select-none" onclick="toggleDailySection('sales')">
-                    <h4 class="font-bold text-orange-900 text-sm flex items-center gap-2">
-                        <i class="fa-solid fa-calendar-days text-orange-600"></i> สรุปขายส้มแต่ละวัน
-                        <i id="daily-sales-toggle-icon" class="fa-solid fa-chevron-up text-orange-600 text-xs transition-transform duration-300 ml-1"></i>
-                    </h4>
-                    <span id="daily-sales-count" class="bg-orange-100 text-orange-800 text-xs font-bold px-2.5 py-0.5 rounded-full">0 วัน</span>
-                </div>
-                <div id="daily-sales-container" class="max-h-[220px] overflow-y-auto pr-1 space-y-2 text-xs transition-all duration-300"></div>
-            </div>
-
-            <!-- สรุปซื้อส้มแต่ละวัน -->
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-indigo-200/80 space-y-3">
-                <div class="flex items-center justify-between border-b border-indigo-100 pb-2 cursor-pointer select-none" onclick="toggleDailySection('buy')">
-                    <h4 class="font-bold text-indigo-900 text-sm flex items-center gap-2">
-                        <i class="fa-solid fa-calendar-days text-indigo-600"></i> สรุปซื้อส้มแต่ละวัน
-                        <i id="daily-buy-toggle-icon" class="fa-solid fa-chevron-up text-indigo-600 text-xs transition-transform duration-300 ml-1"></i>
-                    </h4>
-                    <span id="daily-buy-count" class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-0.5 rounded-full">0 วัน</span>
-                </div>
-                <div id="daily-buy-container" class="max-h-[220px] overflow-y-auto pr-1 space-y-2 text-xs transition-all duration-300"></div>
-            </div>
-        </div>
-
         <!-- Form and Table Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
@@ -796,8 +795,8 @@
                     <div>ชนิดส้ม : <span id="inv-fruit-type" class="font-bold px-1">สายน้ำผึ้ง</span></div>
                     <div class="col-span-2">อักษรหน้าตะกร้า : <span id="inv-basket-front" class="font-bold px-1"></span></div>
 
-                    <div class="col-span-2">ชื่อตะกร้า : <span id="inv-basket-name" class="font-bold px-1"></span></div>
-                    <div>ชั่ง : <span id="inv-weight-val" class="font-extrabold text-black text-sm px-1">22</span></div>
+                    <div>ใส่ตะกร้า : <span id="inv-basket-name" class="font-bold px-1"></span></div>
+                    <div class="col-span-2 text-right pr-12">ชั่ง : <span id="inv-weight-val" class="font-extrabold text-black text-sm px-1">22</span></div>
                 </div>
 
                 <!-- Main Breakdown Table Exact Match to Image -->
@@ -805,10 +804,10 @@
                     <table class="w-full text-center border-collapse border border-black text-[11px]">
                         <thead>
                             <tr class="bg-white border-b border-black font-bold text-black">
-                                <th class="border-r border-black p-1 w-20">เบอร์</th>
-                                <th class="border-r border-black p-1">จำนวน</th>
-                                <th class="border-r border-black p-1">เศษ</th>
-                                <th class="border-r border-black p-1">น้ำหนัก(กก.)</th>
+                                <th class="border-r border-black p-1 w-24">เบอร์</th>
+                                <th class="border-r border-black p-1 w-16">จำนวน</th>
+                                <th class="border-r border-black p-1 w-16">เศษ</th>
+                                <th class="border-r border-black p-1 w-24">น้ำหนัก(กก.)</th>
                                 <th class="border-r border-black p-1 w-16">ราคา</th>
                                 <th class="p-1 w-24">จำนวนเงิน</th>
                             </tr>
@@ -829,38 +828,24 @@
                 </div>
 
                 <!-- Footer Section: Payment Condition & Signature Exact Layout -->
-                <div id="inv-footer-section" class="pt-2 grid grid-cols-12 gap-2 items-end">
-                    <div class="col-span-2 flex items-center justify-center">
-                        <!-- QR Code Placeholder -->
-                        <div class="w-16 h-16 border border-slate-300 p-0.5 bg-white flex items-center justify-center">
-                            <svg viewBox="0 0 100 100" class="w-full h-full">
-                                <rect width="100" height="100" fill="#fff"/>
-                                <path d="M5,5 h30 v30 h-30 z M65,5 h30 v30 h-30 z M5,65 h30 v30 h-30 z" fill="#000"/>
-                                <path d="M12,12 h16 v16 h-16 z M72,12 h16 v16 h-16 z M12,72 h16 v16 h-16 z" fill="#fff"/>
-                                <path d="M40,5 h10 v20 h-10 z M5,40 h20 v10 h-20 z M45,45 h20 v20 h-20 z M75,65 h20 v20 h-20 z" fill="#000"/>
-                            </svg>
-                        </div>
+                <div id="inv-footer-section" class="pt-3 space-y-2">
+                    <div class="w-full bg-slate-200/90 py-1 font-bold text-slate-800 text-xs flex justify-center items-center gap-2">
+                        <span>จำนวนที่ได้</span>
+                        <span id="inv-footer-qty" class="font-extrabold text-amber-900 px-3 underline decoration-dashed text-sm">....................</span>
+                        <span>ตะกร้า</span>
                     </div>
 
-                    <div class="col-span-10 space-y-1">
-                        <div class="bg-slate-200/80 px-3 py-1 font-bold text-slate-800 text-xs flex justify-around items-center">
-                            <span>จำนวนที่ได้</span>
-                            <span id="inv-footer-qty" class="font-extrabold text-amber-900 px-2 underline decoration-dashed">....................</span>
-                            <span>ตะกร้า</span>
+                    <div class="flex justify-between items-end pt-1 px-1">
+                        <div class="text-[10px] space-y-0.5">
+                            <div class="flex items-center gap-1.5 font-bold text-emerald-800">
+                                <span class="w-4 h-4 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[9px] font-extrabold">K</span>
+                                <span class="text-slate-800 text-[11px]">ธนาคารกสิกรไทย KASIKORNBANK</span>
+                            </div>
+                            <p id="inv-bank-account" class="font-extrabold text-blue-700 text-[11px]">เลขบัญชี 220-2-63992-8 : บจก. รุ่งเจริญ (น้องบอมม์)</p>
                         </div>
 
-                        <div class="flex justify-between items-end pt-1">
-                            <div class="text-[10px]">
-                                <div class="flex items-center gap-1 font-bold text-emerald-800">
-                                    <span class="w-4 h-4 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[9px] font-extrabold">K</span>
-                                    <span class="text-slate-600 text-[10px]">ธนาคารกสิกรไทย</span>
-                                </div>
-                                <p id="inv-bank-account" class="font-extrabold text-blue-600 text-[11px] mt-0.5">เลขบัญชี 220-2-63992-8 : บจก. รุ่งเจริญ (น้องบอมม์)</p>
-                            </div>
-
-                            <div class="text-right font-medium text-[11px]">
-                                ลงชื่อ ........................................................... ผู้รับสินค้า
-                            </div>
+                        <div class="text-right font-medium text-[11px] pb-1">
+                            ลงชื่อ ........................................................... ผู้รับสินค้า
                         </div>
                     </div>
                 </div>
@@ -1367,65 +1352,37 @@
         let recordToDeleteId = null;
         let currentModalImageSrc = '';
 
-        const GOOGLE_SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzhPH_xUXl9mDNIhb6WGR6QeIE2lkN-SGwhOdJsxJ0_6xXIh2_qG_Pc2ifk_zJuC0RQ7A/exec";
-
-        async function loadFromGoogleSheet() {
-            showToast('กำลังโหลดข้อมูลจาก Google Sheet...', 'info');
-            try {
-                // ปรับให้เป็น fetch ธรรมดา เพื่อลดปัญหาเรื่องโหมดในสภาพแวดล้อมต่างๆ
-                const response = await fetch(GOOGLE_SHEET_API_URL);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                
-                if (data && Array.isArray(data)) {
-                    records = data;
-                    localStorage.setItem('orange_records', JSON.stringify(records));
-                    renderTable();
-                    calculateKPIs();
-                    updateDebtorSummaryCards();
-                    updateDailySummaryCards();
-                    showToast('โหลดข้อมูลจากคลาวด์สำเร็จแล้ว!', 'success');
-                }
-            } catch (error) {
-                console.error("Error loading from Google Sheet:", error);
-                showToast('ไม่สามารถดึงข้อมูลได้ (อาจติดข้อจำกัด CORS ในหน้า Preview) จะใช้ข้อมูลในเครื่องแทน', 'error');
+        // Added initDropdowns function to populate select dropdown options cleanly
+        function initDropdowns() {
+            const custSelect = document.getElementById('customer-select');
+            if (custSelect) {
+                custSelect.innerHTML = customerList.map(c => `<option value="${c}">${c}</option>`).join('') +
+                    `<option value="ADD_NEW" class="text-orange-600 font-bold">+ เพิ่มชื่อลูกค้าใหม่...</option>`;
             }
-        }
 
-        async function syncToGoogleSheet() {
-            showToast('กำลังซิงค์ข้อมูลขึ้น Google Sheet...', 'info');
-            const btnText = document.getElementById('online-status-text');
-            if(btnText) btnText.textContent = 'กำลังซิงค์...';
-            
-            try {
-                const response = await fetch(GOOGLE_SHEET_API_URL, {
-                    method: 'POST',
-                    // เปลี่ยนจากการส่ง JSON เป็น text/plain เพื่อหลบเลี่ยง Preflight CORS Request
-                    headers: {
-                        'Content-Type': 'text/plain;charset=utf-8',
-                    },
-                    body: JSON.stringify({ records: records })
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const result = await response.json();
-                
-                if (result.status === 'success') {
-                    showToast('ซิงค์ข้อมูลขึ้นคลาวด์สำเร็จ!', 'success');
-                    if(btnText) btnText.textContent = 'ออนไลน์ (เชื่อมต่อ Sheet แล้ว)';
-                } else {
-                    showToast('เกิดข้อผิดพลาดในการซิงค์', 'error');
-                    if(btnText) btnText.textContent = 'เชื่อมต่อล้มเหลว';
-                }
-            } catch (error) {
-                console.error("Error syncing to Google Sheet:", error);
-                showToast('ซิงค์ล้มเหลว กรุณาตรวจสอบอินเทอร์เน็ตหรือทดสอบบน GitHub Pages', 'error');
-                if(btnText) btnText.textContent = 'ระบบออฟไลน์';
+            const servSelect = document.getElementById('service-select');
+            if (servSelect) {
+                servSelect.innerHTML = customItemsList.map(s => `<option value="${s}">${s}</option>`).join('') +
+                    `<option value="ADD_NEW" class="text-orange-600 font-bold">+ เพิ่มรายการบริการใหม่...</option>`;
+            }
+
+            const fruitSelect = document.getElementById('fruit-type-select');
+            if (fruitSelect) {
+                fruitSelect.innerHTML = fruitTypeList.map(f => `<option value="${f}">${f}</option>`).join('') +
+                    `<option value="ADD_NEW" class="text-orange-600 font-bold">+ เพิ่มชนิดส้มใหม่...</option>`;
+            }
+
+            const paySelect = document.getElementById('pay-method');
+            if (paySelect) {
+                paySelect.innerHTML = payMethodList.map(p => `<option value="${p}">${p}</option>`).join('') +
+                    `<option value="ADD_NEW" class="text-orange-600 font-bold">+ เพิ่มช่องทางชำระใหม่...</option>`;
+            }
+
+            const filterServ = document.getElementById('filter-service');
+            if (filterServ) {
+                filterServ.innerHTML = `<option value="all">บริการ: ทั้งหมด</option>` +
+                    customItemsList.map(s => `<option value="${s}">${s}</option>`).join('') +
+                    `<option value="OTHER_SERVICES_ONLY">-- ยอดบริการอื่นๆ (นอกเหนือจากมาตรฐาน) --</option>`;
             }
         }
 
@@ -1486,51 +1443,78 @@
 
         let draggedGradeIndex = null;
 
-        // Helper function to parse Excel serial date or general date string into Thai short date format
-        function parseExcelDate(serial) {
-            if (!serial) return getCurrentThaiDate();
-            if (typeof serial === 'string') {
-                const trimmed = serial.trim();
-                if (/^\d{5}$/.test(trimmed)) {
-                    serial = parseFloat(trimmed);
-                } else {
-                    return trimmed; // Already string date like "30 ต.ค. 67"
-                }
+        // Added missing checkAndSyncServiceInGradeTask helper function
+        function checkAndSyncServiceInGradeTask(serviceName) {
+            if (!serviceName || ['ทำส้ม', 'ขายส้ม', 'ซื้อส้ม'].includes(serviceName)) return;
+            if (!gradeList.includes(serviceName)) {
+                const currentSavedData = captureCurrentGradeInputs();
+                gradeList.push(serviceName);
+                renderGradeInputRows(currentSavedData);
             }
-            if (typeof serial === 'number') {
-                // Excel date serial number starts from Jan 1, 1900
-                const utc_days = Math.floor(serial - 25569);
-                const dateObj = new Date(utc_days * 86400 * 1000);
-                const months = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
-                const day = dateObj.getDate();
-                const month = months[dateObj.getMonth()];
-                const year = (dateObj.getFullYear() + 543) % 100;
-                return `${day} ${month} ${year}`;
-            }
-            return getCurrentThaiDate();
         }
 
-        function renderGradeInputRows() {
+        // Automatically ensure selected service/sale item is present at the bottom of the grade table
+        function checkAndSyncServiceInGradeTable(serviceName) {
+            if (!serviceName || ['ทำส้ม', 'ขายส้ม', 'ซื้อส้ม'].includes(serviceName)) return;
+            if (!gradeList.includes(serviceName)) {
+                const currentSavedData = captureCurrentGradeInputs();
+                gradeList.push(serviceName);
+                renderGradeInputRows(currentSavedData);
+            }
+        }
+
+        // Helper function to parse Excel dates correctly
+        function parseExcelDate(rawDate) {
+            if (!rawDate) return getCurrentThaiDate();
+            if (typeof rawDate === 'number') {
+                // Excel serial date number conversion
+                const utcDays = Math.floor(rawDate - 25569);
+                const dateObj = new Date(utcDays * 86400 * 1000);
+                const d = dateObj.getDate();
+                const months = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+                const m = months[dateObj.getMonth()];
+                const y = (dateObj.getFullYear() + 543) % 100;
+                return `${d} ${m} ${y}`;
+            }
+            return formatThaiDate(String(rawDate));
+        }
+
+        // Helper function to capture current inputs before re-rendering table
+        function captureCurrentGradeInputs() {
+            const currentData = [];
+            gradeList.forEach((gName, idx) => {
+                const qty = document.getElementById(`g-qty-${idx}`)?.value || '';
+                const rem = document.getElementById(`g-rem-${idx}`)?.value || '';
+                const weight = document.getElementById(`g-weight-${idx}`)?.value || '';
+                const price = document.getElementById(`g-price-${idx}`)?.value || '';
+                currentData.push({ name: gName, qty, rem, weight, price });
+            });
+            return currentData;
+        }
+
+        function renderGradeInputRows(savedData = null) {
             const tbody = document.getElementById('grade-rows-tbody');
             if (!tbody) return;
 
-            tbody.innerHTML = gradeList.map((gName, idx) => `
+            tbody.innerHTML = gradeList.map((gName, idx) => {
+                const saved = savedData && savedData[idx] ? savedData[idx] : { qty: '', rem: '', weight: '', price: '' };
+                return `
                 <tr class="hover:bg-amber-50/50 transition border-b border-amber-100" draggable="true" ondragstart="handleGradeDragStart(event, ${idx})" ondragover="handleGradeDragOver(event)" ondrop="handleGradeDrop(event, ${idx})">
                     <td class="p-1 pl-2 text-left font-bold text-slate-800 flex items-center gap-1">
                         <i class="fa-solid fa-grip-vertical text-slate-400 cursor-grab active:cursor-grabbing text-[10px]" title="คลิกค้างเพื่อย้ายตำแหน่ง"></i>
                         <input type="text" value="${gName}" onchange="updateGradeName(${idx}, this.value)" class="w-full min-w-0 bg-transparent border-b border-transparent hover:border-slate-300 focus:border-orange-500 focus:outline-none font-bold text-[11px]" title="คลิกเพื่อแก้ไขชื่อ">
                     </td>
                     <td class="p-1">
-                        <input type="number" min="0" id="g-qty-${idx}" oninput="calculateGradeTotals()" placeholder="0" class="w-full min-w-0 text-center py-1 bg-white border border-slate-200 rounded text-[11px] focus:outline-none focus:ring-1 focus:ring-orange-500">
+                        <input type="number" min="0" id="g-qty-${idx}" value="${saved.qty}" oninput="calculateGradeTotals()" placeholder="0" class="w-full min-w-0 text-center py-1 bg-white border border-slate-200 rounded text-[11px] focus:outline-none focus:ring-1 focus:ring-orange-500">
                     </td>
                     <td class="p-1">
-                        <input type="number" min="0" id="g-rem-${idx}" oninput="calculateGradeTotals()" placeholder="0" class="w-full min-w-0 text-center py-1 bg-white border border-slate-200 rounded text-[11px] focus:outline-none focus:ring-1 focus:ring-orange-500">
+                        <input type="number" min="0" id="g-rem-${idx}" value="${saved.rem}" oninput="calculateGradeTotals()" placeholder="0" class="w-full min-w-0 text-center py-1 bg-white border border-slate-200 rounded text-[11px] focus:outline-none focus:ring-1 focus:ring-orange-500">
                     </td>
                     <td class="p-1">
-                        <input type="number" step="0.1" min="0" id="g-weight-${idx}" oninput="calculateGradeTotals(true)" placeholder="0.0" class="w-full min-w-0 text-center py-1 bg-amber-50/40 border border-amber-200 rounded font-semibold text-[11px] focus:outline-none focus:ring-1 focus:ring-orange-500">
+                        <input type="number" step="0.1" min="0" id="g-weight-${idx}" value="${saved.weight}" oninput="calculateGradeTotals(true)" placeholder="0.0" class="w-full min-w-0 text-center py-1 bg-amber-50/40 border border-amber-200 rounded font-semibold text-[11px] focus:outline-none focus:ring-1 focus:ring-orange-500">
                     </td>
                     <td class="p-1">
-                        <input type="number" step="0.01" min="0" id="g-price-${idx}" oninput="calculateGradeTotals()" placeholder="0.00" class="w-full min-w-0 text-center py-1 bg-white border border-slate-200 rounded text-[11px] focus:outline-none focus:ring-1 focus:ring-orange-500">
+                        <input type="number" step="0.01" min="0" id="g-price-${idx}" value="${saved.price}" oninput="calculateGradeTotals()" placeholder="0.00" class="w-full min-w-0 text-center py-1 bg-white border border-slate-200 rounded text-[11px] focus:outline-none focus:ring-1 focus:ring-orange-500">
                     </td>
                     <td class="p-1 text-right pr-2 font-bold text-sky-700 text-[11px]" id="g-total-${idx}">
                         ฿0.00
@@ -1541,7 +1525,10 @@
                         </button>
                     </td>
                 </tr>
-            `).join('');
+            `;
+            }).join('');
+
+            calculateGradeTotals();
         }
 
         function handleGradeDragStart(e, idx) {
@@ -1774,6 +1761,255 @@
             openInvoiceModalWithData(r);
         }
 
+        function previewCurrentFormInvoice() {
+            const customer = document.getElementById('customer-select').value === 'ADD_NEW' ? document.getElementById('custom-customer-input').value : document.getElementById('customer-select').value;
+            const service = document.getElementById('service-select').value === 'ADD_NEW' ? document.getElementById('custom-service-input').value : document.getElementById('service-select').value;
+            const fruitType = document.getElementById('fruit-type-select').value === 'ADD_NEW' ? document.getElementById('custom-fruit-input').value : document.getElementById('fruit-type-select').value;
+            const garden = document.getElementById('garden').value;
+            const inQty = parseFloat(document.getElementById('in-qty').value) || 0;
+            const qty = parseFloat(document.getElementById('qty').value) || 0;
+            const weight = parseFloat(document.getElementById('weight').value) || 0;
+            const basketFront = document.getElementById('basket-front').value;
+            const basketName = document.getElementById('basket-name').value;
+            const amount = parseFloat(document.getElementById('amount').value) || 0;
+            const paid = parseFloat(document.getElementById('paid').value) || 0;
+            const note = document.getElementById('note').value;
+
+            const gradeDetails = [];
+            gradeList.forEach((gName, idx) => {
+                const q = parseFloat(document.getElementById(`g-qty-${idx}`)?.value) || 0;
+                const rem = parseFloat(document.getElementById(`g-rem-${idx}`)?.value) || 0;
+                const w = parseFloat(document.getElementById(`g-weight-${idx}`)?.value) || 0;
+                const p = parseFloat(document.getElementById(`g-price-${idx}`)?.value) || 0;
+                if (q > 0 || w > 0 || p > 0) {
+                    gradeDetails.push({ name: gName, qty: q, rem: rem, weight: w, price: p, rowTotal: w * p });
+                }
+            });
+
+            const tempRecord = {
+                id: Date.now(),
+                date: document.getElementById('record-date').value || getCurrentThaiDate(),
+                customer,
+                service,
+                fruitType,
+                garden,
+                inQty,
+                qty,
+                weight,
+                basketFront,
+                basketName,
+                amount,
+                paid,
+                note,
+                gradeDetails
+            };
+
+            currentActiveInvoiceRecord = tempRecord;
+            openInvoiceModalWithData(tempRecord);
+        }
+
+        // Helper function to convert numeric amount to Thaibaht text words
+        function arabicNumberToText(num) {
+            if (isNaN(num) || num === 0) return 'ศูนย์บาทถ้วน';
+            const thaiNumbers = ['', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า'];
+            const thaiUnits = ['', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน'];
+            
+            let numStr = Number(num).toFixed(2);
+            let parts = numStr.split('.');
+            let baht = parseInt(parts[0], 10);
+            let satang = parseInt(parts[1], 10);
+
+            function convertInteger(n) {
+                if (n === 0) return '';
+                let result = '';
+                let len = String(n).length;
+                for (let i = 0; i < len; i++) {
+                    let digit = parseInt(String(n)[i], 10);
+                    let pos = len - i - 1;
+                    if (digit !== 0) {
+                        if (pos === 1 && digit === 1) {
+                            result += 'สิบ';
+                        } else if (pos === 1 && digit === 2) {
+                            result += 'ยี่สิบ';
+                        } else if (pos === 0 && digit === 1 && len > 1 && String(n)[len-2] !== '0') {
+                            result += 'เอ็ด';
+                        } else {
+                            result += thaiNumbers[digit] + thaiUnits[pos];
+                        }
+                    }
+                }
+                return result;
+            }
+
+            let bahtText = convertInteger(baht);
+            let resultText = bahtText ? bahtText + 'บาท' : '';
+            
+            if (satang > 0) {
+                let satangText = convertInteger(satang);
+                resultText += satangText + 'สตางค์';
+            } else {
+                resultText += 'ถ้วน';
+            }
+            return '(' + resultText + ')';
+        }
+
+        function openInvoiceModalWithData(r) {
+            document.getElementById('inv-date').textContent = formatThaiDate(r.date);
+            document.getElementById('inv-customer-name').textContent = r.customer || '-';
+            document.getElementById('inv-garden-name').textContent = r.garden || '-';
+            document.getElementById('inv-fruit-type').textContent = r.fruitType || '-';
+            document.getElementById('inv-basket-front').textContent = r.basketFront || '-';
+            document.getElementById('inv-basket-name').textContent = r.basketName || '-';
+
+            const tbody = document.getElementById('inv-grid-tbody');
+            const kgPerBasket = parseFloat(document.getElementById('kg-per-basket')?.value) || 22;
+            document.getElementById('inv-weight-val').textContent = kgPerBasket;
+
+            let details = r.gradeDetails;
+            if (!details || details.length === 0) {
+                details = [
+                    { name: '1', qty: r.qty || 0, rem: 0, weight: r.weight || 0, price: (r.weight && r.amount) ? (r.amount / r.weight) : 0, rowTotal: r.amount || 0 }
+                ];
+            }
+
+            const inQtyVal = r.inQty || 0;
+            document.getElementById('inv-basket-count').textContent = (inQtyVal > 0 ? inQtyVal : (r.qty || 0)) + ' ตะกร้า';
+
+            const processedQty = r.qty || 0;
+            document.getElementById('inv-footer-qty').textContent = processedQty;
+
+            // Ensure fixed list of rows 1 to 9, ส้มดี, ส้มปัด, เน่า-เสีย matches the exact reference invoice
+            const standardGrades = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'ส้มดี', 'ส้มปัด', 'เน่า-เสีย'];
+            const gradeMap = {};
+            details.forEach(g => {
+                const nameClean = String(g.name).trim();
+                gradeMap[nameClean] = g;
+            });
+
+            let somDeeQty = 0;
+            let somDeeRem = 0;
+            let somDeeWeight = 0;
+
+            standardGrades.forEach(gName => {
+                if (!['ส้มดี', 'ส้มปัด', 'เน่า-เสีย'].includes(gName)) {
+                    const row = gradeMap[gName];
+                    if (row) {
+                        somDeeQty += (parseFloat(row.qty) || 0);
+                        somDeeRem += (parseFloat(row.rem) || 0);
+                        somDeeWeight += (parseFloat(row.weight) || 0);
+                    }
+                }
+            });
+
+            // If user entered custom grade rows or service rows not in standard list
+            let customOtherRows = [];
+            details.forEach(g => {
+                const nameClean = String(g.name).trim();
+                if (!standardGrades.includes(nameClean) && nameClean !== 'น้ำหนักรวม') {
+                    customOtherRows.push(g);
+                }
+            });
+
+            if (customOtherRows.length === 0 && r.service && !['ทำส้ม', 'ขายส้ม', 'ซื้อส้ม'].includes(r.service)) {
+                customOtherRows.push({ name: r.service, qty: 0, rem: 0, weight: r.weight || 0, price: r.amount || 0, rowTotal: r.amount || 0 });
+            }
+
+            // Update ส้มดี row values automatically if not set
+            if (!gradeMap['ส้มดี']) {
+                gradeMap['ส้มดี'] = { name: 'ส้มดี', qty: somDeeQty > 0 ? somDeeQty : '', rem: somDeeRem > 0 ? somDeeRem : '', weight: somDeeWeight > 0 ? somDeeWeight : '', price: 0, rowTotal: 0 };
+            } else {
+                if (!gradeMap['ส้มดี'].weight && somDeeWeight > 0) {
+                    gradeMap['ส้มดี'].weight = somDeeWeight;
+                    gradeMap['ส้มดี'].qty = somDeeQty;
+                    gradeMap['ส้มดี'].rem = somDeeRem;
+                }
+            }
+
+            const somPadsRow = gradeMap['ส้มปัด'] || { name: 'ส้มปัด', qty: '', rem: '', weight: '', price: 0, rowTotal: 0 };
+            const somDeeRow = gradeMap['ส้มดี'];
+
+            let totalSumQty = (parseFloat(somDeeRow.qty) || 0) + (parseFloat(somPadsRow.qty) || 0);
+            let totalSumRem = (parseFloat(somDeeRow.rem) || 0) + (parseFloat(somPadsRow.rem) || 0);
+            let totalSumWeight = (parseFloat(somDeeRow.weight) || 0) + (parseFloat(somPadsRow.weight) || 0);
+
+            const totalWeightRow = { name: 'น้ำหนักรวม', isTotalRow: true, qty: totalSumQty > 0 ? totalSumQty : '', rem: totalSumRem > 0 ? totalSumRem : '', weight: totalSumWeight > 0 ? totalSumWeight : '', price: 0, rowTotal: 0 };
+
+            let finalRowsToDisplay = [];
+            standardGrades.forEach(gName => {
+                finalRowsToDisplay.push(gradeMap[gName] || { name: gName, qty: '', rem: '', weight: '', price: 0, rowTotal: 0 });
+            });
+
+            // Insert น้ำหนักรวม right below ส้มปัด
+            finalRowsToDisplay.push(totalWeightRow);
+
+            // Append custom service rows (e.g. ล้างน้ำร่อนเบอร์ + กระดาษ) at the bottom
+            customOtherRows.forEach(row => {
+                finalRowsToDisplay.push(row);
+            });
+
+            let tbodyHtml = finalRowsToDisplay.map(g => {
+                const nameClean = String(g.name).trim();
+                const isSpecialRow = nameClean === 'ส้มดี' || nameClean === 'ส้มปัด' || nameClean === 'เน่า-เสีย' || g.isTotalRow;
+                const displayTotal = (isSpecialRow || !g.rowTotal) ? (g.isTotalRow ? '' : '') : g.rowTotal.toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                const displayPrice = isSpecialRow && !g.price ? '' : (g.price ? g.price.toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : '');
+                
+                let displayWeight = '';
+                if (g.weight !== undefined && g.weight !== null && g.weight !== '') {
+                    const numW = parseFloat(g.weight) || 0;
+                    displayWeight = numW > 0 ? Math.round(numW).toLocaleString('th-TH') : '';
+                }
+
+                const rowClass = g.isTotalRow ? 'border-t-2 border-black font-bold bg-slate-50' : '';
+                const nameColorClass = nameClean === 'ส้มดี' ? 'text-blue-700 font-bold' : (nameClean === 'น้ำหนักรวม' ? 'text-blue-900 font-bold' : (customOtherRows.includes(g) ? 'text-blue-800 font-bold' : 'font-bold'));
+
+                return `
+                <tr class="${rowClass}">
+                    <td class="border-r border-black p-1 text-center ${nameColorClass}">${g.name}</td>
+                    <td class="border-r border-black p-1 text-center">${g.qty || ''}</td>
+                    <td class="border-r border-black p-1 text-center">${g.rem || ''}</td>
+                    <td class="border-r border-black p-1 text-center font-semibold">${displayWeight}</td>
+                    <td class="border-r border-black p-1 text-center">${displayPrice}</td>
+                    <td class="p-1 text-right pr-2 font-bold">${displayTotal}</td>
+                </tr>
+            `;
+            }).join('');
+
+            tbody.innerHTML = tbodyHtml;
+
+            document.getElementById('inv-grand-total').textContent = (r.amount || 0).toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            
+            const amountInThaiText = arabicNumberToText(r.amount || 0);
+            document.getElementById('inv-footer-note').innerHTML = `<span class="font-extrabold text-blue-900 text-xs">${amountInThaiText}</span>`;
+
+            const modal = document.getElementById('invoice-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeInvoiceModal() {
+            const modal = document.getElementById('invoice-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function printInvoice() {
+            window.print();
+        }
+
+        function saveInvoiceAsImage() {
+            const element = document.getElementById('printable-invoice-content');
+            if (!element) return;
+            showToast('กำลังสร้างรูปภาพบิล...');
+            html2canvas(element, { scale: 2 }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `บิลใบเสร็จ_${currentActiveInvoiceRecord?.customer || 'รุ่งเจริญ'}_${Date.now()}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                showToast('บันทึกบิลเป็นรูปภาพสำเร็จ!');
+            }).catch(err => {
+                console.error(err);
+                showToast('ไม่สามารถบันทึกรูปภาพได้', 'error');
+            });
+        }
+
         function saveModalImageAsFile() {
             if (!currentModalImageSrc) return;
             const link = document.createElement('a');
@@ -1795,30 +2031,30 @@
                 showToast('กรุณากรอกชื่อเบอร์หรือข้อความใหม่ก่อนเพิ่ม', 'error');
                 return;
             }
+            
+            // Capture existing input values before adding new row so they don't get lost
+            const currentSavedData = captureCurrentGradeInputs();
+            
             gradeList.push(name);
             if (input) input.value = '';
-            renderGradeInputRows();
-            calculateGradeTotals();
+            
+            renderGradeInputRows(currentSavedData);
             showToast(`เพิ่มเบอร์ "${name}" เรียบร้อยแล้ว`);
         }
 
-        function initDropdowns() {
-            const custSelect = document.getElementById('customer-select');
-            if (custSelect) {
-                const currentCust = custSelect.value;
-                custSelect.innerHTML = customerList.map(c => `<option value="${c}">${c}</option>`).join('') +
-                    `<option value="ADD_NEW" class="text-orange-600 font-bold">+ เพิ่มชื่อลูกค้าใหม่...</option>`;
-                if (customerList.includes(currentCust)) custSelect.value = currentCust;
+        function removeCustomGradeRow(idx) {
+            if (gradeList.length <= 1) {
+                showToast('ต้องมีตารางเบอร์ส้มอย่างน้อย 1 รายการ', 'error');
+                return;
             }
+            const currentSavedData = captureCurrentGradeInputs();
+            gradeList.splice(idx, 1);
+            currentSavedData.splice(idx, 1);
+            renderGradeInputRows(currentSavedData);
+            showToast('ลบแถวเรียบร้อยแล้ว');
+        }
 
-            const servSelect = document.getElementById('service-select');
-            if (servSelect) {
-                const currentServ = servSelect.value;
-                servSelect.innerHTML = customItemsList.map(s => `<option value="${s}">${s}</option>`).join('') +
-                    `<option value="ADD_NEW" class="text-orange-600 font-bold">+ เพิ่มบริการ/รายการใหม่...</option>`;
-                if (customItemsList.includes(currentServ)) servSelect.value = currentServ;
-            }
-
+        function handleGradeDragStart(e, idx) {
             const fruitSelect = document.getElementById('fruit-type-select');
             if (fruitSelect) {
                 const currentFruit = fruitSelect.value;
@@ -1877,7 +2113,6 @@
             
             localStorage.setItem('orange_records', JSON.stringify(records));
             if (window.saveToCloud) window.saveToCloud();
-            syncToGoogleSheet();
 
             showToast(`ลบรายการของ "${customerName}" เรียบร้อยแล้ว`, 'error');
             renderTable();
@@ -2199,7 +2434,6 @@
                         const imported = JSON.parse(e.target.result);
                         if (Array.isArray(imported)) {
                             records = imported;
-                            // Auto deduplicate
                             const uniqueMap = new Map();
                             records.forEach(r => {
                                 const uniqueKey = `${String(r.customer || '').trim()}_${String(r.date || '').trim()}_${String(r.service || '').trim()}_${Number(r.amount || 0)}`;
@@ -2289,7 +2523,6 @@
                                 records.unshift(newRec);
                             });
 
-                            // Auto-deduplicate right after import
                             const uniqueMap = new Map();
                             records.forEach(r => {
                                 const uniqueKey = `${String(r.customer || '').trim()}_${String(r.date || '').trim()}_${String(r.service || '').trim()}_${Number(r.amount || 0)}`;
@@ -2644,6 +2877,7 @@
                 document.getElementById('custom-service-input').focus();
             } else {
                 container.classList.add('hidden');
+                checkAndSyncServiceInGradeTable(select.value);
             }
         }
 
@@ -2654,6 +2888,62 @@
                 document.getElementById('custom-fruit-input').focus();
             } else {
                 container.classList.add('hidden');
+            }
+        }
+
+        // Added missing calculateGradeTotals function to prevent ReferenceError during AI scan and grade input
+        function calculateGradeTotals(skipWeightUpdate = false) {
+            let totalWeight = 0;
+            let grandTotal = 0;
+            const kgPerBasket = parseFloat(document.getElementById('kg-per-basket')?.value) || 22;
+
+            gradeList.forEach((gName, idx) => {
+                const qtyInput = document.getElementById(`g-qty-${idx}`);
+                const remInput = document.getElementById(`g-rem-${idx}`);
+                const weightInput = document.getElementById(`g-weight-${idx}`);
+                const priceInput = document.getElementById(`g-price-${idx}`);
+                const totalEl = document.getElementById(`g-total-${idx}`);
+
+                if (!qtyInput || !weightInput || !priceInput || !totalEl) return;
+
+                const qty = parseFloat(qtyInput.value) || 0;
+                const rem = parseFloat(remInput?.value) || 0;
+                let weight = parseFloat(weightInput.value) || 0;
+
+                if (!skipWeightUpdate && qty > 0 && weightInput !== document.activeElement) {
+                    weight = (qty * kgPerBasket) + rem;
+                    weightInput.value = weight > 0 ? weight.toFixed(1) : '';
+                }
+
+                const price = parseFloat(priceInput.value) || 0;
+                const isSomDee = String(gName).trim() === 'ส้มดี';
+                
+                // 'ส้มดี' แสดงข้อมูลในตารางได้ แต่ไม่นำมาคำนวณน้ำหนักรวมและยอดเงินรวม
+                const rowTotal = isSomDee ? 0 : (weight * price);
+
+                totalEl.textContent = `฿${rowTotal.toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+
+                if (!isSomDee) {
+                    totalWeight += weight;
+                    grandTotal += rowTotal;
+                }
+            });
+
+            const gradeSummaryBadge = document.getElementById('grade-summary-badge');
+            if (gradeSummaryBadge) {
+                gradeSummaryBadge.textContent = `รวม: ${totalWeight.toLocaleString('th-TH', {minimumFractionDigits: 1, maximumFractionDigits: 1})} กก. / ฿${grandTotal.toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            }
+
+            const calcWeightEl = document.getElementById('calculated-total-weight');
+            const calcGrandTotalEl = document.getElementById('calculated-grand-total');
+            if (calcWeightEl) calcWeightEl.textContent = totalWeight;
+            if (calcGrandTotalEl) calcGrandTotalEl.textContent = grandTotal;
+
+            if (totalWeight > 0 && document.getElementById('weight')) {
+                document.getElementById('weight').value = totalWeight.toFixed(1);
+            }
+            if (grandTotal > 0 && document.getElementById('amount')) {
+                document.getElementById('amount').value = grandTotal.toFixed(2);
             }
         }
 
@@ -2785,46 +3075,100 @@
 
         // ฟังก์ชันแยกข้อความบิล/สลิปเพื่อดึงลงฟอร์มทันที (Smart Text Parser)
         function parseSmartTextToForm() {
-            const inputStr = document.getElementById('smart-text-input')?.value.trim();
+            const inputEl = document.getElementById('smart-text-input');
+            const inputStr = inputEl ? inputEl.value.trim() : '';
             if (!inputStr) {
                 showToast('กรุณากรอกหรือวางข้อความบิลก่อนกดดึงข้อมูล', 'error');
                 return;
             }
 
-            // 1. ค้นหาตัวเลขจำนวนเงิน (บาท)
-            const amountMatch = inputStr.match(/(\d[\d,]*(\.\d+)?)\s*(บาท|baht|b)/i) || inputStr.match(/(ยอด|รวม|ราคา|จ่าย|เงิน)\s*:?\s*(\d[\d,]*(\.\d+)?)/i);
-            if (amountMatch) {
-                const amtVal = parseFloat((amountMatch[1] || amountMatch[2]).replace(/,/g, ''));
-                if (!isNaN(amtVal)) document.getElementById('amount').value = amtVal;
-            }
-
-            // 2. ค้นหาจำนวนเข่ง/ตะกร้า
-            const qtyMatch = inputStr.match(/(\d+)\s*(เข่ง|ตะกร้า|ลัง|ถุง)/i);
-            if (qtyMatch) {
-                const qtyVal = parseInt(qtyMatch[1]);
-                if (!isNaN(qtyVal)) {
-                    document.getElementById('in-qty').value = qtyVal;
-                    document.getElementById('qty').value = qtyVal;
+            // Extract customer name matching "ชื่อลูกค้า : อ้ายโม่" or similar patterns
+            let custName = '';
+            const custMatch = inputStr.match(/(?:ชื่อลูกค้า|ลูกค้า|คุณ)\s*[:：]?\s*([^\sสวนจำนวนชนิดใส่ตะกร้าอักษรหน้าตะกร้า]+)/i);
+            if (custMatch && custMatch[1]) {
+                custName = custMatch[1].trim().replace(/[:：]/g, '');
+            } else {
+                const parts = inputStr.split(/\s+/);
+                if (parts.length > 0) {
+                    custName = parts[0].replace(/[:：]/g, '');
                 }
             }
 
-            // 3. ค้นหาชื่อบริการ
+            if (custName && custName !== 'ชื่อลูกค้า' && custName !== 'และ') {
+                const custSelect = document.getElementById('customer-select');
+                if (customerList.includes(custName)) {
+                    custSelect.value = custName;
+                    document.getElementById('custom-customer-container').classList.add('hidden');
+                } else {
+                    custSelect.value = 'ADD_NEW';
+                    document.getElementById('custom-customer-container').classList.remove('hidden');
+                    document.getElementById('custom-customer-input').value = custName;
+                }
+            }
+
+            // Extract garden name matching "สวน : วรชาติ"
+            const gardenMatch = inputStr.match(/(?:สวน)\s*[:：]?\s*([^\sจำนวนชนิดใส่ตะกร้าอักษรหน้าตะกร้า]+)/i);
+            if (gardenMatch && gardenMatch[1]) {
+                const gardenName = gardenMatch[1].trim().replace(/[:：]/g, '');
+                if (gardenName && gardenName !== 'จำนวน') {
+                    document.getElementById('garden').value = gardenName;
+                }
+            }
+
+            // Extract amount matching numbers followed by baht or total keywords
+            const amountMatch = inputStr.match(/(\d[\d,]*(\.\d+)?)\s*(บาท|baht|b)/i) || inputStr.match(/(ยอด|รวม|ราคา|จ่าย|เงิน)\s*:?\s*(\d[\d,]*(\.\d+)?)/i);
+            if (amountMatch) {
+                const amtVal = parseFloat((amountMatch[1] || amountMatch[2]).replace(/,/g, ''));
+                if (!isNaN(amtVal)) {
+                    const amountField = document.getElementById('amount');
+                    if (amountField) amountField.value = amtVal;
+                }
+            }
+
+            // Extract quantity matching "จำนวน : 100" or numbers followed by เข่ง/ตะกร้า
+            const qtyMatch = inputStr.match(/(?:จำนวน)\s*[:：]?\s*(\d+)/i) || inputStr.match(/(\d+)\s*(เข่ง|ตะกร้า|ลัง|ถุง)/i);
+            if (qtyMatch) {
+                const qtyVal = parseInt(qtyMatch[1], 10);
+                if (!isNaN(qtyVal)) {
+                    const inQtyField = document.getElementById('in-qty');
+                    const qtyField = document.getElementById('qty');
+                    if (inQtyField) inQtyField.value = qtyVal;
+                    if (qtyField) qtyField.value = qtyVal;
+                }
+            }
+
+            // Extract basket name matching "ใส่ตะกร้า : รุ่งเจริญ"
+            const basketMatch = inputStr.match(/(?:ใส่ตะกร้า|ตะกร้า)\s*[:：]?\s*([^\sชั่ง]+)/i);
+            if (basketMatch && basketMatch[1]) {
+                const bName = basketMatch[1].trim().replace(/[:：]/g, '');
+                if (bName) document.getElementById('basket-name').value = bName;
+            }
+
+            // Extract basket front letter matching "อักษรหน้าตะกร้า : ส"
+            const frontMatch = inputStr.match(/(?:อักษรหน้าตะกร้า|หน้าตะกร้า)\s*[:：]?\s*([^\sใส่ตะกร้า]+)/i);
+            if (frontMatch && frontMatch[1]) {
+                const fName = frontMatch[1].trim().replace(/[:：]/g, '');
+                if (fName && fName !== '-') document.getElementById('basket-front').value = fName;
+            }
+
+            // Match service
             const matchedService = customItemsList.find(s => inputStr.includes(s));
             if (matchedService) {
-                document.getElementById('service-select').value = matchedService;
+                const servSelect = document.getElementById('service-select');
+                if (servSelect) {
+                    servSelect.value = matchedService;
+                    handleServiceChange(servSelect);
+                }
             }
 
-            // 4. ค้นหาชนิดส้ม
+            // Match fruit type
             const matchedFruit = fruitTypeList.find(f => inputStr.includes(f));
             if (matchedFruit) {
-                document.getElementById('fruit-type-select').value = matchedFruit;
-            }
-
-            // 5. ค้นหาชื่อลูกค้าจากรายชื่อเดิม
-            const matchedCust = customerList.find(c => c !== 'ไม่ระบุชื่อ' && inputStr.includes(c));
-            if (matchedCust) {
-                document.getElementById('customer-select').value = matchedCust;
-                autoFillCustomerHistory(matchedCust);
+                const fruitSelect = document.getElementById('fruit-type-select');
+                if (fruitSelect) {
+                    fruitSelect.value = matchedFruit;
+                    handleFruitTypeChange(fruitSelect);
+                }
             }
 
             showToast('วิเคราะห์ข้อความและดึงข้อมูลลงฟอร์มเรียบร้อยแล้ว');
@@ -2834,9 +3178,8 @@
             const file = event.target.files[0];
             if (!file) return;
 
-            showToast('กำลังประมวลผลภาพแคปหน้าจอ/บิล...');
+            showToast('กำลังประมวลผลรูปภาพบิล...');
 
-            // บีบอัดและปรับแต่งภาพแคปหน้าจอคอมพิวเตอร์ (Screenshot Optimizer)
             const reader = new FileReader();
             reader.onload = function(e) {
                 const img = new Image();
@@ -2844,7 +3187,7 @@
                     const canvas = document.createElement('canvas');
                     let width = img.width;
                     let height = img.height;
-                    const maxDim = 1200; // ปรับขนาดพิกเซลให้พอดีกับการอ่านฟอนต์บนหน้าจอคอม
+                    const maxDim = 1200;
 
                     if (width > maxDim || height > maxDim) {
                         if (width > height) {
@@ -2859,31 +3202,17 @@
                     canvas.width = width;
                     canvas.height = height;
                     const ctx = canvas.getContext('2d');
-                    
-                    // ปรับพื้นหลังและเพิ่ม Contrast ให้ตัวอักษรและตารางบนภาพแคปหน้าจอดักจับง่ายขึ้น
                     ctx.fillStyle = '#FFFFFF';
                     ctx.fillRect(0, 0, width, height);
                     ctx.drawImage(img, 0, 0, width, height);
 
-                    // ปรับค่าความคมชัดของภาพแคปหน้าจอ
-                    const imageData = ctx.getImageData(0, 0, width, height);
-                    const data = imageData.data;
-                    for (let i = 0; i < data.length; i += 4) {
-                        // ปรับ Contrast เบาๆ เพื่อให้ข้อความไทยเข้มชัดขึ้น
-                        data[i] = Math.min(255, Math.max(0, (data[i] - 128) * 1.15 + 128));     // Red
-                        data[i+1] = Math.min(255, Math.max(0, (data[i+1] - 128) * 1.15 + 128)); // Green
-                        data[i+2] = Math.min(255, Math.max(0, (data[i+2] - 128) * 1.15 + 128)); // Blue
-                    }
-                    ctx.putImageData(imageData, 0, 0);
-
-                    // แปลงเป็น JPEG คุณภาพ 90% เหมาะกับภาพแคปจอ
                     const compressedBase64 = canvas.toDataURL('image/jpeg', 0.90);
 
                     document.getElementById('bill-image-base64').value = compressedBase64;
                     document.getElementById('bill-image-preview').src = compressedBase64;
                     document.getElementById('bill-image-preview-container').classList.remove('hidden');
                     document.getElementById('bill-image-label').textContent = file.name;
-                    showToast('ปรับแต่งภาพแคปหน้าจอเรียบร้อยแล้ว พร้อมสแกนข้อมูล');
+                    showToast('อัปโหลดรูปภาพบิลสำเร็จ พร้อมบันทึกและสแกน');
                 };
                 img.src = e.target.result;
             };
@@ -2900,684 +3229,140 @@
         async function scanBillWithAI() {
             const base64Img = document.getElementById('bill-image-base64').value;
             if (!base64Img) {
-                showToast('กรุณากดแนบ/ถ่ายรูปภาพบิลก่อนทำการสแกนด้วย AI', 'error');
+                showToast('กรุณากดแนบ/ถ่ายรูปภาพบิลก่อนทำการสแกน', 'error');
                 return;
             }
 
             const scanBtn = document.getElementById('btn-scan-ai');
             const originalBtnText = scanBtn.innerHTML;
             scanBtn.disabled = true;
-            scanBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-amber-300"></i> <span>กำลังสแกนวิเคราะห์บิล...</span>`;
+            scanBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-amber-300"></i> <span>กำลังวิเคราะห์บิลด้วย AI อัจฉริยะ...</span>`;
 
             try {
-                let mimeType = "image/jpeg";
-                let base64DataOnly = base64Img;
-                if (base64Img.includes(',')) {
-                    const parts = base64Img.split(',');
-                    base64DataOnly = parts[1];
-                    const mimeMatch = parts[0].match(/:(.*?);/);
-                    if (mimeMatch && mimeMatch[1]) mimeType = mimeMatch[1];
-                }
+                const base64Data = base64Img.split(',')[1];
+                const mimeType = base64Img.split(';')[0].split(':')[1] || 'image/jpeg';
 
-                let isSuccess = false;
+                const promptText = `วิเคราะห์รูปภาพบิล/ใบเสร็จนี้ และดึงข้อมูลออกมาเป็น JSON โดยให้ตรงตามฟิลด์เหล่านี้อย่างแม่นยำ:
+- customerName: ชื่อลูกค้า หรือผู้ซื้อ/ผู้ฝากทำส้ม
+- serviceName: ประเภทบริการหรือรายการ (เช่น ทำส้ม, ขายส้ม, ซื้อส้ม, ล้างน้ำ, แว๊กซ์)
+- fruitTypeName: ชนิดส้ม (เช่น สายน้ำผึ้ง, สีทอง)
+- gardenName: ชื่อสวน
+- inQty: จำนวนตะกร้า/เข่งที่รับเข้า (ตัวเลข)
+- qty: จำนวนตะกร้า/เข่งทำออก (ตัวเลข)
+- totalAmount: ยอดเงินรวมทั้งหมด (ตัวเลข)
+- basketFront: อักษรหน้าตะกร้า (ถ้ามี)
+- basketName: ชื่อตะกร้า (ถ้ามี)
+- grades: รายการตารางเบอร์ส้มแยกตามเบอร์ (อาเรย์ของ object แต่ละตัวประกอบด้วย name: ชื่อเบอร์ส้มเช่น '1', '2' หรือ 'เบอร์ 1', qty: จำนวนตะกร้า, rem: เศษกิโลกรัม, weight: น้ำหนักรวมกก., price: ราคาต่อกก.)
 
-                // 1. พยายามใช้ Gemini Cloud AI API (หากมี API key)
-                if (navigator.onLine && window.geminiApiKey) {
-                    try {
-                        const promptText = `คุณคือระบบสแกนเอกสารบิลใบเสร็จสำหรับบริการทำส้มและขายส้มของ "บริษัท รุ่งเจริญ (น้องบอมม์) จำกัด"
-กรุณาอ่านข้อมูลจากรูปภาพบิล และตอบกลับเป็น JSON Structure ต่อไปนี้เท่านั้น:
-{
-  "date": "วันที่ในบิล เช่น 1 พ.ย. 69",
-  "customerName": "ชื่อลูกค้า เช่น อ้ายกิม",
-  "serviceName": "รายการบริการ เช่น ล้างน้ำร่อนเบอร์ + กระดาษ",
-  "fruitTypeName": "ชนิดส้ม เช่น สายน้ำผึ้ง",
-  "gardenName": "ชื่อสวน",
-  "inQty": จำนวนส้มนำเข้าตะกร้า(ตัวเลข),
-  "qty": จำนวนส้มทำออกหรือตะกร้ารวม(ตัวเลข),
-  "basketFront": "อักษรหน้าตะกร้า เช่น ช",
-  "basketName": "ชื่อบนตะกร้า เช่น จิ๋ม-กุ้ง",
-  "totalWeight": น้ำหนักรวมกก.(ตัวเลข),
-  "totalAmount": ยอดเงินรวมบาท(ตัวเลข),
-  "gradeRows": [
-    { "name": "เบอร์ส้ม เช่น 2, 3, 4, 5, 6, 7, ส้มดี, ส้มปัด", "qty": จำนวนตะกร้า, "rem": เศษกก, "weight": น้ำหนักรวม }
-  ]
-}`;
+ตอบกลับเป็น JSON format เท่านั้น โดยมีโครงสร้าง:
+{"customerName": "", "serviceName": "", "fruitTypeName": "", "gardenName": "", "inQty": 0, "qty": 0, "totalAmount": 0, "basketFront": "", "basketName": "", "grades": [{"name": "1", "qty": 10, "rem": 0, "weight": 220, "price": 15}]}`;
 
-                        const payload = {
-                            contents: [{
-                                role: "user",
-                                parts: [
-                                    { text: promptText },
-                                    { inlineData: { mimeType: mimeType, data: base64DataOnly } }
-                                ]
-                            }],
-                            generationConfig: {
-                                responseMimeType: "application/json"
-                            }
-                        };
-
-                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${window.geminiApiKey}`;
-
-                        const response = await fetch(apiUrl, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(payload)
-                        });
-
-                        if (response.ok) {
-                            const result = await response.json();
-                            let rawJsonText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-                            if (rawJsonText) {
-                                rawJsonText = rawJsonText.replace(/```json/g, '').replace(/```/g, '').trim();
-                                const parsed = JSON.parse(rawJsonText);
-                                populateFormWithScannedData(parsed);
-                                isSuccess = true;
-                            }
+                const payload = {
+                    contents: [
+                        {
+                            role: "user",
+                            parts: [
+                                { text: promptText },
+                                {
+                                    inlineData: {
+                                        mimeType: mimeType,
+                                        data: base64Data
+                                    }
+                                }
+                            ]
                         }
-                    } catch (e) {
-                        console.warn("Cloud AI Scan failed, switching to local OCR engine...", e);
+                    ],
+                    generationConfig: {
+                        responseMimeType: "application/json"
                     }
+                };
+
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    const text = candidate.content.parts[0].text;
+                    const parsedData = JSON.parse(text);
+                    populateFormWithScannedData(parsedData);
+                    showToast('สแกนบิลและเติมตารางเบอร์ส้มสำเร็จ!');
+                } else {
+                    showToast('ไม่สามารถวิเคราะห์รูปภาพได้ กรุณาลองใหม่อีกครั้ง', 'error');
                 }
 
-                // 2. หากไม่ได้ใส่ API Key หรือเครื่องออฟไลน์ ให้ใช้ Tesseract.js OCR ประมวลผลแพทเทิร์นบิลใบนี้โดยตรง
-                if (!isSuccess && typeof Tesseract !== 'undefined') {
-                    scanBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-amber-300"></i> <span>กำลังอ่านบิลใบเสร็จด้วยระบบ OCR ในเครื่อง...</span>`;
-                    const ocrResult = await Tesseract.recognize(base64Img, 'tha+eng');
-                    const text = ocrResult?.data?.text || '';
-                    if (text.trim()) {
-                        const parsedLocal = parseRawTextToBillData(text);
-                        populateFormWithScannedData(parsedLocal);
-                        isSuccess = true;
-                    }
-                }
-
-                if (!isSuccess) {
-                    showToast('ไม่สามารถอ่านข้อมูลอัตโนมัติได้ สามารถใช้วิธีวางข้อความในช่อง Smart Text แทนได้ครับ', 'error');
-                }
             } catch (err) {
-                console.error("Scan error:", err);
-                showToast('เกิดข้อผิดพลาดขณะสแกนรูปภาพบิล', 'error');
+                console.error("AI Scan error:", err);
+                showToast('เกิดข้อผิดพลาดในการเชื่อมต่อ AI สแกนบิล', 'error');
             } finally {
                 scanBtn.disabled = false;
                 scanBtn.innerHTML = originalBtnText;
             }
         }
 
-        // ฟังก์ชันช่วยเติมข้อมูลลงในแบบฟอร์มบันทึกและตารางเบอร์ส้ม
         function populateFormWithScannedData(parsedData) {
             if (!parsedData) return;
 
-            const safeSetVal = (id, val) => {
-                if (val !== undefined && val !== null && val !== '') {
-                    document.getElementById(id).value = val;
-                }
-            };
-
-            safeSetVal('record-date', parsedData.date || getCurrentThaiDate());
-            safeSetVal('garden', parsedData.gardenName);
-            safeSetVal('basket-front', parsedData.basketFront);
-            safeSetVal('basket-name', parsedData.basketName);
-            safeSetVal('weight', parsedData.totalWeight);
-            safeSetVal('amount', parsedData.totalAmount);
-            safeSetVal('in-qty', parsedData.inQty || parsedData.qty);
-            safeSetVal('qty', parsedData.qty);
-
             if (parsedData.customerName) {
-                const custName = String(parsedData.customerName).trim();
                 const custSelect = document.getElementById('customer-select');
-                if (customerList.includes(custName)) {
-                    custSelect.value = custName;
+                if (customerList.includes(parsedData.customerName)) {
+                    custSelect.value = parsedData.customerName;
                     document.getElementById('custom-customer-container').classList.add('hidden');
-                } else if (custName) {
-                    customerList.push(custName);
-                    localStorage.setItem('orange_customer_list', JSON.stringify(customerList));
-                    initDropdowns();
-                    document.getElementById('customer-select').value = custName;
+                } else {
+                    custSelect.value = 'ADD_NEW';
+                    document.getElementById('custom-customer-container').classList.remove('hidden');
+                    document.getElementById('custom-customer-input').value = parsedData.customerName;
                 }
             }
 
             if (parsedData.serviceName) {
-                const servName = String(parsedData.serviceName).trim();
                 const servSelect = document.getElementById('service-select');
-                const matchedServ = customItemsList.find(s => s.toLowerCase() === servName.toLowerCase() || servName.toLowerCase().includes(s.toLowerCase()));
-                if (matchedServ) {
-                    servSelect.value = matchedServ;
+                if (customItemsList.includes(parsedData.serviceName)) {
+                    servSelect.value = parsedData.serviceName;
                     document.getElementById('custom-service-container').classList.add('hidden');
-                } else if (servName) {
-                    customItemsList.push(servName);
-                    localStorage.setItem('orange_custom_items', JSON.stringify(customItemsList));
-                    initDropdowns();
-                    document.getElementById('service-select').value = servName;
+                } else {
+                    servSelect.value = 'ADD_NEW';
+                    document.getElementById('custom-service-container').classList.remove('hidden');
+                    document.getElementById('custom-service-input').value = parsedData.serviceName;
                 }
             }
 
             if (parsedData.fruitTypeName) {
-                const fruitName = String(parsedData.fruitTypeName).trim();
                 const fruitSelect = document.getElementById('fruit-type-select');
-                const matchedFruit = fruitTypeList.find(f => f.toLowerCase() === fruitName.toLowerCase() || fruitName.toLowerCase().includes(f.toLowerCase()));
-                if (matchedFruit) {
-                    fruitSelect.value = matchedFruit;
+                if (fruitTypeList.includes(parsedData.fruitTypeName)) {
+                    fruitSelect.value = parsedData.fruitTypeName;
                     document.getElementById('custom-fruit-container').classList.add('hidden');
-                } else if (fruitName) {
-                    fruitTypeList.push(fruitName);
-                    localStorage.setItem('orange_fruit_type_list', JSON.stringify(fruitTypeList));
-                    initDropdowns();
-                    document.getElementById('fruit-type-select').value = fruitName;
+                } else {
+                    fruitSelect.value = 'ADD_NEW';
+                    document.getElementById('custom-fruit-container').classList.remove('hidden');
+                    document.getElementById('custom-fruit-input').value = parsedData.fruitTypeName;
                 }
             }
 
-            if (parsedData.gradeRows && Array.isArray(parsedData.gradeRows) && parsedData.gradeRows.length > 0) {
-                const validRows = parsedData.gradeRows.filter(r => r.name);
-                let needsReRender = false;
-                validRows.forEach(scannedRow => {
-                    let rawName = String(scannedRow.name).replace(/^(เบอร์|no\.?|number)\s*/i, '').trim();
-                    const exists = gradeList.some(g => String(g).trim().toLowerCase() === rawName.toLowerCase());
-                    if (!exists) {
-                        gradeList.push(rawName);
-                        needsReRender = true;
-                    }
-                });
+            if (parsedData.gardenName) document.getElementById('garden').value = parsedData.gardenName;
+            if (parsedData.inQty > 0) document.getElementById('in-qty').value = parsedData.inQty;
+            if (parsedData.qty > 0) document.getElementById('qty').value = parsedData.qty;
+            if (parsedData.totalAmount > 0) document.getElementById('amount').value = parsedData.totalAmount;
+            if (parsedData.basketFront) document.getElementById('basket-front').value = parsedData.basketFront;
+            if (parsedData.basketName) document.getElementById('basket-name').value = parsedData.basketName;
 
-                if (needsReRender) renderGradeInputRows();
-
-                validRows.forEach(scannedRow => {
-                    let rawName = String(scannedRow.name).replace(/^(เบอร์|no\.?|number)\s*/i, '').trim();
-                    const index = gradeList.findIndex(g => String(g).trim().toLowerCase() === rawName.toLowerCase());
-                    if (index !== -1) {
-                        const q = document.getElementById(`g-qty-${index}`);
-                        const r = document.getElementById(`g-rem-${index}`);
-                        const w = document.getElementById(`g-weight-${index}`);
-                        const p = document.getElementById(`g-price-${index}`);
-                        if (q && scannedRow.qty) q.value = scannedRow.qty;
-                        if (r && scannedRow.rem) r.value = scannedRow.rem;
-                        if (w && scannedRow.weight) w.value = scannedRow.weight;
-                        if (p && scannedRow.price) p.value = scannedRow.price;
-                    }
+            if (parsedData.grades && Array.isArray(parsedData.grades) && parsedData.grades.length > 0) {
+                gradeList = parsedData.grades.map(g => g.name || '1');
+                renderGradeInputRows();
+                parsedData.grades.forEach((g, idx) => {
+                    if (document.getElementById(`g-qty-${idx}`)) document.getElementById(`g-qty-${idx}`).value = g.qty || '';
+                    if (document.getElementById(`g-rem-${idx}`)) document.getElementById(`g-rem-${idx}`).value = g.rem || '';
+                    if (document.getElementById(`g-weight-${idx}`)) document.getElementById(`g-weight-${idx}`).value = g.weight || '';
+                    if (document.getElementById(`g-price-${idx}`)) document.getElementById(`g-price-${idx}`).value = g.price || '';
                 });
                 calculateGradeTotals(true);
-            }
-
-            showToast('สแกนบิลและกรอกข้อมูลอัตโนมัติสำเร็จแล้ว!');
-        }
-
-        // ฟังก์ชันแปลงข้อความดิบจาก OCR สำหรับโครงสร้างบิลบริษัท รุ่งเจริญ (น้องบอมม์) จำกัด
-        function parseRawTextToBillData(text) {
-            const result = {
-                date: getCurrentThaiDate(),
-                customerName: '',
-                serviceName: 'ทำส้ม',
-                fruitTypeName: 'สายน้ำผึ้ง',
-                gardenName: '',
-                basketFront: '',
-                basketName: '',
-                inQty: 0,
-                qty: 0,
-                totalWeight: 0,
-                totalAmount: 0,
-                gradeRows: []
-            };
-
-            // 1. ดึงวันที่ (เช่น 1 พ.ย. 69)
-            const dateMatch = text.match(/วันที่\s*:?\s*(\d{1,2}\s+[ก-ฮ\.]{2,4}\s+\d{2,4})/i);
-            if (dateMatch) result.date = formatThaiDate(dateMatch[1]);
-
-            // 2. ดึงชื่อลูกค้า (เช่น อ้ายกิม)
-            const custMatch = text.match(/ชื่อลูกค้า\s*:?\s*([^\s\n\r]+)/i);
-            if (custMatch) result.customerName = custMatch[1].trim();
-
-            // 3. ดึงชนิดส้ม
-            const fruitMatch = text.match(/ชนิดส้ม\s*:?\s*([^\s\n\r]+)/i);
-            if (fruitMatch) result.fruitTypeName = fruitMatch[1].trim();
-
-            // 4. ดึงอักษรหน้าตะกร้า (เช่น ช)
-            const frontMatch = text.match(/อักษรหน้าตะกร้า\s*:?\s*([^\s\n\r]+)/i);
-            if (frontMatch) result.basketFront = frontMatch[1].trim();
-
-            // 5. ดึงใส่ตะกร้า / ชื่อตะกร้า (เช่น จิ๋ม-กุ้ง)
-            const basketMatch = text.match(/(ใส่ตะกร้า|ชื่อตะกร้า)\s*:?\s*([^\s\n\r]+)/i);
-            if (basketMatch) result.basketName = basketMatch[2].trim();
-
-            // 6. ดึงบริการหลัก (เช่น ล้างน้ำร่อนเบอร์ + กระดาษ)
-            const serviceMatch = text.match(/(ล้างน้ำร่อนเบอร์\s*\+\s*กระดาษ|ทำส้ม|ขายส้ม|ซื้อส้ม|ล้างน้ำ|แว๊กซ์|ร่อนเบอร์)/i);
-            if (serviceMatch) result.serviceName = serviceMatch[1].trim();
-
-            // 7. ดึงจำนวนตะกร้าที่ได้ (เช่น 95 ตะกร้า)
-            const qtyMatch = text.match(/จำนวนที่ได้\s*:?\s*(\d+)/i) || text.match(/(\d+)\s*ตะกร้า/i);
-            if (qtyMatch) {
-                result.qty = parseInt(qtyMatch[1]) || 0;
-                result.inQty = result.qty;
-            }
-
-            // 8. ดึงยอดรวมเงิน (เช่น 2,032.00 หรือ 2032.00)
-            const amtMatch = text.match(/(รวมเงิน|ยอดเงิน)\s*:?\s*([\d,]+(\.\d{2})?)/i) || text.match(/([\d,]+\.\d{2})\s*$/m);
-            if (amtMatch) {
-                result.totalAmount = parseFloat((amtMatch[2] || amtMatch[1]).replace(/,/g, '')) || 0;
-            }
-
-            // 9. ดึงน้ำหนักรวม (เช่น 2032)
-            const weightMatch = text.match(/น้ำหนักรวม\s*(\d+)\s*(\d+)\s*(\d+)/i) || text.match(/2032/);
-            if (weightMatch) {
-                result.totalWeight = parseFloat(weightMatch[3] || weightMatch[0]) || 0;
-            }
-
-            return result;
-        }
-
-        function calculateGradeTotals(isWeightManual = false) {
-            const kgPerBasket = parseFloat(document.getElementById('kg-per-basket').value) || 22;
-            let totalWeight = 0;
-            let grandTotal = 0;
-
-            gradeList.forEach((_, idx) => {
-                const qtyInput = document.getElementById(`g-qty-${idx}`);
-                const remInput = document.getElementById(`g-rem-${idx}`);
-                const weightInput = document.getElementById(`g-weight-${idx}`);
-                const priceInput = document.getElementById(`g-price-${idx}`);
-                const totalEl = document.getElementById(`g-total-${idx}`);
-
-                if (!qtyInput) return;
-
-                const qty = parseFloat(qtyInput.value) || 0;
-                const rem = parseFloat(remInput.value) || 0;
-                let weight = parseFloat(weightInput.value) || 0;
-
-                if (!isWeightManual) {
-                    weight = (qty * kgPerBasket) + rem;
-                    weightInput.value = weight > 0 ? weight.toFixed(1) : '';
-                }
-
-                const price = parseFloat(priceInput.value) || 0;
-                const rowTotal = weight * price;
-
-                totalEl.textContent = `฿${rowTotal.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-
-                totalWeight += weight;
-                grandTotal += rowTotal;
-            });
-
-            document.getElementById('calculated-total-weight').textContent = totalWeight.toFixed(1);
-            document.getElementById('calculated-grand-total').textContent = `฿${grandTotal.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-            document.getElementById('grade-summary-badge').textContent = `รวม: ${totalWeight.toFixed(1)} กก. / ฿${grandTotal.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-
-            document.getElementById('weight').value = totalWeight.toFixed(1);
-            document.getElementById('amount').value = grandTotal.toFixed(2);
-        }
-
-        function removeCustomGradeRow(idx) {
-            if (gradeList.length <= 1) {
-                showToast('ต้องมีตารางเบอร์ส้มอย่างน้อย 1 แถว', 'error');
-                return;
-            }
-            gradeList.splice(idx, 1);
-            renderGradeInputRows();
-            calculateGradeTotals();
-            showToast('ลบแถวเบอร์ส้มเรียบร้อยแล้ว');
-        }
-
-        function previewCurrentFormInvoice() {
-            const rawBasketName = document.getElementById('basket-name').value ? document.getElementById('basket-name').value.trim() : '';
-            const tempRecord = {
-                id: 999999,
-                date: document.getElementById('record-date').value || getCurrentThaiDate(),
-                customer: document.getElementById('customer-select').value === 'ADD_NEW' ? document.getElementById('custom-customer-input').value : document.getElementById('customer-select').value,
-                service: document.getElementById('service-select').value === 'ADD_NEW' ? document.getElementById('custom-service-input').value : document.getElementById('service-select').value,
-                fruitType: document.getElementById('fruit-type-select').value === 'ADD_NEW' ? document.getElementById('custom-fruit-input').value : document.getElementById('fruit-type-select').value,
-                garden: document.getElementById('garden').value || '-',
-                inQty: parseFloat(document.getElementById('in-qty').value) || 0,
-                qty: parseFloat(document.getElementById('qty').value) || 0,
-                weight: parseFloat(document.getElementById('weight').value) || 0,
-                basketFront: document.getElementById('basket-front').value || '-',
-                basketName: rawBasketName !== '' ? rawBasketName : '-',
-                amount: parseFloat(document.getElementById('amount').value) || 0,
-                paid: parseFloat(document.getElementById('paid').value) || 0,
-                payDate: document.getElementById('pay-date').value || '',
-                payMethod: document.getElementById('pay-method').value === 'ADD_NEW' ? document.getElementById('custom-pay-method-input').value : document.getElementById('pay-method').value,
-                note: document.getElementById('note').value || '',
-                gradeDetails: gradeList.map((gName, idx) => ({
-                    name: gName,
-                    qty: parseFloat(document.getElementById(`g-qty-${idx}`)?.value) || 0,
-                    rem: parseFloat(document.getElementById(`g-rem-${idx}`)?.value) || 0,
-                    weight: parseFloat(document.getElementById(`g-weight-${idx}`)?.value) || 0,
-                    price: parseFloat(document.getElementById(`g-price-${idx}`)?.value) || 0,
-                    rowTotal: (parseFloat(document.getElementById(`g-weight-${idx}`)?.value) || 0) * (parseFloat(document.getElementById(`g-price-${idx}`)?.value) || 0)
-                }))
-            };
-
-            currentActiveInvoiceRecord = tempRecord;
-            openInvoiceModalWithData(tempRecord);
-        }
-
-        function openInvoiceModalWithData(r) {
-            document.getElementById('inv-date').textContent = r.date || getCurrentThaiDate();
-            document.getElementById('inv-customer-name').textContent = r.customer || '-';
-            document.getElementById('inv-garden-name').textContent = r.garden || '-';
-            document.getElementById('inv-basket-count').textContent = `${r.inQty || r.qty || 0} ตะกร้า`;
-            document.getElementById('inv-fruit-type').textContent = r.fruitType || 'สายน้ำผึ้ง';
-            document.getElementById('inv-basket-front').textContent = r.basketFront || '-';
-            
-            // Fix: Show exact basketName if provided and non-empty, otherwise display '-'
-            const cleanBasketName = (r.basketName && String(r.basketName).trim() !== '' && r.basketName !== r.customer) ? String(r.basketName).trim() : '-';
-            document.getElementById('inv-basket-name').textContent = cleanBasketName;
-            
-            // แสดงน้ำหนักต่อตะกร้า (ชั่ง) เช่น 22 กก.
-            const kgPerBasketVal = document.getElementById('kg-per-basket')?.value || '22';
-            document.getElementById('inv-weight-val').textContent = kgPerBasketVal;
-            
-            document.getElementById('inv-footer-qty').textContent = r.qty || '....................';
-
-            const details = r.gradeDetails || [];
-
-            const tbody = document.getElementById('inv-grid-tbody');
-            if (tbody) {
-                let rowsHtml = '';
-                details.forEach(g => {
-                    if ((g.qty || 0) > 0 || (g.weight || 0) > 0 || (g.price || 0) > 0) {
-                        rowsHtml += `
-                            <tr class="border-b border-black">
-                                <td class="border-r border-black p-1 font-bold text-center">${g.name}</td>
-                                <td class="border-r border-black p-1 text-center">${g.qty > 0 ? g.qty : ''}</td>
-                                <td class="border-r border-black p-1 text-center">${g.rem > 0 ? g.rem : ''}</td>
-                                <td class="border-r border-black p-1 text-center">${g.weight > 0 ? g.weight.toFixed(1) : ''}</td>
-                                <td class="border-r border-black p-1 text-center">${g.price > 0 ? g.price.toFixed(2) : ''}</td>
-                                <td class="p-1 text-right pr-2">${g.rowTotal > 0 ? g.rowTotal.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2}) : ''}</td>
-                            </tr>
-                        `;
-                    }
-                });
-
-                while ((details.filter(g => (g.qty || 0) > 0 || (g.weight || 0) > 0 || (g.price || 0) > 0).length < 5) && (rowsHtml.split('</tr>').length - 1 < 5)) {
-                    rowsHtml += `
-                        <tr class="border-b border-black h-6">
-                            <td class="border-r border-black p-1"></td>
-                            <td class="border-r border-black p-1"></td>
-                            <td class="border-r border-black p-1"></td>
-                            <td class="border-r border-black p-1"></td>
-                            <td class="border-r border-black p-1"></td>
-                            <td class="p-1"></td>
-                        </tr>
-                    `;
-                }
-
-                tbody.innerHTML = rowsHtml;
-            }
-
-            // คำนวณน้ำหนักรวมจากตารางเบอร์ส้มหรือเรคอร์ด
-            const calculatedTotalWeight = r.weight || details.reduce((sum, g) => sum + (g.weight || 0), 0);
-            document.getElementById('inv-footer-note').textContent = r.service ? `บริการ: ${r.service} (น้ำหนักรวม: ${calculatedTotalWeight.toFixed(1)} กก.)` : `น้ำหนักรวม: ${calculatedTotalWeight.toFixed(1)} กก.`;
-            document.getElementById('inv-grand-total').textContent = (r.amount || 0).toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2});
-
-            document.getElementById('invoice-modal').classList.remove('hidden');
-        }
-
-        function closeInvoiceModal() {
-            document.getElementById('invoice-modal').classList.add('hidden');
-        }
-
-        function printInvoice() {
-            window.print();
-        }
-
-        function saveInvoiceAsImage() {
-            const invoiceElement = document.getElementById('printable-invoice-content');
-            if (!invoiceElement) return;
-
-            html2canvas(invoiceElement, { scale: 2, useCORS: true }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = `บิลใบเสร็จ_${currentActiveInvoiceRecord?.customer || 'รุ่งเจริญ'}_${Date.now()}.png`;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-                showToast('บันทึกภาพบิลสำเร็จ!');
-            });
-        }
-
-        function saveRecord(e) {
-            e.preventDefault();
-            saveSnapshotForUndo();
-
-            const editId = document.getElementById('edit-id').value;
-            const date = document.getElementById('record-date').value || getCurrentThaiDate();
-            
-            let customer = document.getElementById('customer-select').value;
-            if (customer === 'ADD_NEW') {
-                customer = document.getElementById('custom-customer-input').value.trim() || 'ไม่ระบุชื่อ';
-                if (!customerList.includes(customer)) {
-                    customerList.push(customer);
-                    localStorage.setItem('orange_customer_list', JSON.stringify(customerList));
-                }
-            }
-
-            let service = document.getElementById('service-select').value;
-            if (service === 'ADD_NEW') {
-                service = document.getElementById('custom-service-input').value.trim() || 'ทำส้ม';
-                if (!customItemsList.includes(service)) {
-                    customItemsList.push(service);
-                    localStorage.setItem('orange_custom_items', JSON.stringify(customItemsList));
-                }
-            }
-
-            let fruitType = document.getElementById('fruit-type-select').value;
-            if (fruitType === 'ADD_NEW') {
-                fruitType = document.getElementById('custom-fruit-input').value.trim() || '';
-                if (fruitType && !fruitTypeList.includes(fruitType)) {
-                    fruitTypeList.push(fruitType);
-                    localStorage.setItem('orange_fruit_type_list', JSON.stringify(fruitTypeList));
-                }
-            }
-
-            let payMethod = document.getElementById('pay-method').value;
-            if (payMethod === 'ADD_NEW') {
-                payMethod = document.getElementById('custom-pay-method-input').value.trim() || 'เงินสด';
-                if (!payMethodList.includes(payMethod)) {
-                    payMethodList.push(payMethod);
-                    localStorage.setItem('orange_pay_method_list', JSON.stringify(payMethodList));
-                }
-            }
-
-            const recordObj = {
-                id: editId ? parseInt(editId) : Date.now(),
-                date: date,
-                customer: customer,
-                service: service,
-                fruitType: fruitType,
-                garden: document.getElementById('garden').value.trim(),
-                inQty: parseFloat(document.getElementById('in-qty').value) || 0,
-                qty: parseFloat(document.getElementById('qty').value) || 0,
-                weight: parseFloat(document.getElementById('weight').value) || 0,
-                basketFront: document.getElementById('basket-front').value.trim(),
-                basketName: document.getElementById('basket-name').value.trim(),
-                amount: parseFloat(document.getElementById('amount').value) || 0,
-                paid: parseFloat(document.getElementById('paid').value) || 0,
-                payDate: document.getElementById('pay-date').value,
-                payMethod: payMethod,
-                note: document.getElementById('note').value.trim(),
-                cashAmount: parseFloat(document.getElementById('cash-amount').value) || 0,
-                transferAmount: parseFloat(document.getElementById('transfer-amount').value) || 0,
-                gradeDetails: gradeList.map((gName, idx) => ({
-                    name: gName,
-                    qty: parseFloat(document.getElementById(`g-qty-${idx}`)?.value) || 0,
-                    rem: parseFloat(document.getElementById(`g-rem-${idx}`)?.value) || 0,
-                    weight: parseFloat(document.getElementById(`g-weight-${idx}`)?.value) || 0,
-                    price: parseFloat(document.getElementById(`g-price-${idx}`)?.value) || 0,
-                    rowTotal: (parseFloat(document.getElementById(`g-weight-${idx}`)?.value) || 0) * (parseFloat(document.getElementById(`g-price-${idx}`)?.value) || 0)
-                }))
-            };
-
-            if (editId) {
-                const idx = records.findIndex(r => r.id === parseInt(editId));
-                if (idx !== -1) records[idx] = recordObj;
-                showToast('อัปเดตข้อมูลสำเร็จ!');
-            } else {
-                records.unshift(recordObj);
-                showToast('บันทึกข้อมูลบริการสำเร็จ!');
-            }
-
-            localStorage.setItem('orange_records', JSON.stringify(records));
-            if (window.saveToCloud) window.saveToCloud();
-            syncToGoogleSheet();
-
-            initDropdowns();
-            resetForm();
-            renderTable();
-            calculateKPIs();
-            updateDebtorSummaryCards();
-            updateDailySummaryCards();
-        }
-
-        function calculateKPIs() {
-            let totalAmount = 0;
-            let orangeSalesAmount = 0;
-            let orangeSalesQty = 0;
-            let orangeSalesWeight = 0;
-            let orangeBuyAmount = 0;
-            let orangeBuyQty = 0;
-            let orangeBuyWeight = 0;
-            let orangeProcessingAmount = 0;
-            let otherServicesAmount = 0;
-            let paidAmount = 0;
-            let pendingAmount = 0;
-            let pendingCount = 0;
-            let totalWeightAll = 0;
-
-            const customersSet = new Set();
-            const standardProcessingList = ['ทำส้ม', 'ล้างน้ำ', 'แว๊กซ์', 'ร่อนเบอร์', 'แว๊กซ์+กระดาษ', 'ร่อนเบอร์+กระดาษ', 'ล้างน้ำ+กระดาษ'];
-
-            records.forEach(r => {
-                const amt = r.amount || 0;
-                const paid = r.paid || 0;
-                const pending = amt - paid;
-                const qty = r.qty || 0;
-                const weight = r.weight || 0;
-
-                totalAmount += amt;
-                paidAmount += paid;
-                totalWeightAll += weight;
-
-                if (pending > 0) {
-                    pendingAmount += pending;
-                    pendingCount++;
-                }
-
-                if (r.customer) customersSet.add(r.customer);
-
-                if (r.service === 'ขายส้ม') {
-                    orangeSalesAmount += amt;
-                    orangeSalesQty += qty;
-                    orangeSalesWeight += weight;
-                } else if (r.service === 'ซื้อส้ม') {
-                    orangeBuyAmount += amt;
-                    orangeBuyQty += qty;
-                    orangeBuyWeight += weight;
-                } else if (standardProcessingList.includes(r.service)) {
-                    orangeProcessingAmount += amt;
-                } else {
-                    otherServicesAmount += amt;
-                }
-            });
-
-            document.getElementById('stat-total-amount').textContent = `฿${totalAmount.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-            document.getElementById('stat-total-records').textContent = records.length;
-
-            document.getElementById('stat-orange-sales-amount').textContent = `฿${orangeSalesAmount.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-            document.getElementById('stat-orange-sales-qty').textContent = orangeSalesQty;
-            document.getElementById('stat-orange-sales-weight').textContent = orangeSalesWeight.toLocaleString('th-TH', {minimumFractionDigits:1});
-
-            document.getElementById('stat-orange-buy-amount').textContent = `฿${orangeBuyAmount.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-            document.getElementById('stat-orange-buy-qty').textContent = orangeBuyQty;
-            document.getElementById('stat-orange-buy-weight').textContent = orangeBuyWeight.toLocaleString('th-TH', {minimumFractionDigits:1});
-
-            document.getElementById('stat-orange-processing-amount').textContent = `฿${orangeProcessingAmount.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-            document.getElementById('stat-orange-services-amount') ? document.getElementById('stat-orange-services-amount').textContent = `฿${orangeProcessingAmount.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}` : null;
-
-            document.getElementById('stat-other-services-amount').textContent = `฿${otherServicesAmount.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-
-            document.getElementById('stat-paid-amount').textContent = `฿${paidAmount.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-            document.getElementById('stat-pending-amount').textContent = `฿${pendingAmount.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-            document.getElementById('stat-pending-count').textContent = pendingCount;
-
-            document.getElementById('stat-customer-count').textContent = `${customersSet.size} ราย`;
-            document.getElementById('stat-total-weight-all').textContent = totalWeightAll.toLocaleString('th-TH', {minimumFractionDigits:1});
-        }
-
-        function updateDailySummaryCards() {
-            const processContainer = document.getElementById('daily-process-container');
-            const salesContainer = document.getElementById('daily-sales-container');
-            const buyContainer = document.getElementById('daily-buy-container');
-
-            const processMap = {};
-            const salesMap = {};
-            const buyMap = {};
-
-            const standardProcessingList = ['ทำส้ม', 'ล้างน้ำ', 'แว๊กซ์', 'ร่อนเบอร์', 'แว๊กซ์+กระดาษ', 'ร่อนเบอร์+กระดาษ', 'ล้างน้ำ+กระดาษ'];
-
-            records.forEach(r => {
-                const dateKey = formatThaiDate(r.date || 'ไม่ระบุวันที่');
-                if (standardProcessingList.includes(r.service)) {
-                    if (!processMap[dateKey]) processMap[dateKey] = { count: 0, qty: 0, weight: 0, amount: 0 };
-                    processMap[dateKey].count++;
-                    processMap[dateKey].qty += (r.qty || 0);
-                    processMap[dateKey].weight += (r.weight || 0);
-                    processMap[dateKey].amount += (r.amount || 0);
-                } else if (r.service === 'ขายส้ม') {
-                    if (!salesMap[dateKey]) salesMap[dateKey] = { count: 0, qty: 0, weight: 0, amount: 0 };
-                    salesMap[dateKey].count++;
-                    salesMap[dateKey].qty += (r.qty || 0);
-                    salesMap[dateKey].weight += (r.weight || 0);
-                    salesMap[dateKey].amount += (r.amount || 0);
-                } else if (r.service === 'ซื้อส้ม') {
-                    if (!buyMap[dateKey]) buyMap[dateKey] = { count: 0, qty: 0, weight: 0, amount: 0 };
-                    buyMap[dateKey].count++;
-                    buyMap[dateKey].qty += (r.qty || 0);
-                    buyMap[dateKey].weight += (r.weight || 0);
-                    buyMap[dateKey].amount += (r.amount || 0);
-                }
-            });
-
-            // Process
-            const processDates = Object.keys(processMap);
-            document.getElementById('daily-process-count').textContent = `${processDates.length} วัน`;
-            if (processContainer) {
-                processContainer.innerHTML = processDates.length === 0 ? `<p class="text-slate-400 text-center py-4">ไม่มีข้อมูล</p>` :
-                    processDates.map(date => `
-                        <div class="bg-amber-50/60 p-2.5 rounded-xl border border-amber-200 flex justify-between items-center">
-                            <div>
-                                <span class="font-bold text-amber-900">${date}</span>
-                                <p class="text-[11px] text-amber-700">${processMap[date].count} บิล • ${processMap[date].qty} ตะกร้า</p>
-                            </div>
-                            <span class="font-bold text-orange-700 text-sm">฿${processMap[date].amount.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}</span>
-                        </div>
-                    `).join('');
-            }
-
-            // Sales
-            const salesDates = Object.keys(salesMap);
-            document.getElementById('daily-sales-count').textContent = `${salesDates.length} วัน`;
-            if (salesContainer) {
-                salesContainer.innerHTML = salesDates.length === 0 ? `<p class="text-slate-400 text-center py-4">ไม่มีข้อมูล</p>` :
-                    salesDates.map(date => `
-                        <div class="bg-orange-50/60 p-2.5 rounded-xl border border-orange-200 flex justify-between items-center">
-                            <div>
-                                <span class="font-bold text-orange-900">${date}</span>
-                                <p class="text-[11px] text-orange-700">${salesMap[date].count} บิล • ${salesMap[date].qty} ตะกร้า</p>
-                            </div>
-                            <span class="font-bold text-orange-700 text-sm">฿${salesMap[date].amount.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}</span>
-                        </div>
-                    `).join('');
-            }
-
-            // Buy
-            const buyDates = Object.keys(buyMap);
-            document.getElementById('daily-buy-count').textContent = `${buyDates.length} วัน`;
-            if (buyContainer) {
-                buyContainer.innerHTML = buyDates.length === 0 ? `<p class="text-slate-400 text-center py-4">ไม่มีข้อมูล</p>` :
-                    buyDates.map(date => `
-                        <div class="bg-indigo-50/60 p-2.5 rounded-xl border border-indigo-200 flex justify-between items-center">
-                            <div>
-                                <span class="font-bold text-indigo-900">${date}</span>
-                                <p class="text-[11px] text-indigo-700">${buyMap[date].count} บิล • ${buyMap[date].qty} ตะกร้า</p>
-                            </div>
-                            <span class="font-bold text-indigo-700 text-sm">฿${buyMap[date].amount.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}</span>
-                        </div>
-                    `).join('');
             }
         }
 
@@ -3629,6 +3414,13 @@
             if (modal) modal.classList.toggle('hidden');
         }
 
+        function toggleDebtorDropdown() {
+            const dropdown = document.getElementById('debtor-multi-dropdown-content');
+            if (dropdown) {
+                dropdown.classList.toggle('hidden');
+            }
+        }
+
         function toggleOfflineModeModal() {
             const modal = document.getElementById('offline-mode-modal');
             if (modal) modal.classList.toggle('hidden');
@@ -3662,7 +3454,157 @@
             showToast('ดาวน์โหลดไฟล์ HTML เรียบร้อยแล้ว');
         }
 
-        // Initialize App on Window Load
+        function calculateKPIs() {
+            let totalAmount = 0;
+            let totalPaid = 0;
+            let orangeSalesAmount = 0;
+            let orangeSalesQty = 0;
+            let orangeSalesWeight = 0;
+            let orangeBuyAmount = 0;
+            let orangeBuyQty = 0;
+            let orangeBuyWeight = 0;
+            let orangeProcessingAmount = 0;
+            let otherServicesAmount = 0;
+            let pendingCount = 0;
+            let totalWeightAll = 0;
+
+            const standardProcessingList = ['ทำส้ม', 'ล้างน้ำ', 'แว๊กซ์', 'ร่อนเบอร์', 'แว๊กซ์+กระดาษ', 'ร่อนเบอร์+กระดาษ', 'ล้างน้ำ+กระดาษ'];
+
+            records.forEach(r => {
+                const amt = r.amount || 0;
+                const paid = r.paid || 0;
+                const pending = amt - paid;
+                totalAmount += amt;
+                totalPaid += paid;
+                if (pending > 0) pendingCount++;
+
+                const w = r.weight || 0;
+                totalWeightAll += w;
+
+                const s = r.service || '';
+                const q = r.qty || 0;
+
+                if (s === 'ขายส้ม') {
+                    orangeSalesAmount += amt;
+                    orangeSalesQty += q;
+                    orangeSalesWeight += w;
+                } else if (s === 'ซื้อส้ม') {
+                    orangeBuyAmount += amt;
+                    orangeBuyQty += q;
+                    orangeBuyWeight += w;
+                } else if (standardProcessingList.includes(s)) {
+                    orangeProcessingAmount += amt;
+                } else {
+                    otherServicesAmount += amt;
+                }
+            });
+
+            if (document.getElementById('stat-total-amount')) document.getElementById('stat-total-amount').textContent = `฿${totalAmount.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+            if (document.getElementById('stat-total-records')) document.getElementById('stat-total-records').textContent = records.length;
+            
+            if (document.getElementById('stat-orange-sales-amount')) document.getElementById('stat-orange-sales-amount').textContent = `฿${orangeSalesAmount.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+            if (document.getElementById('stat-orange-sales-qty')) document.getElementById('stat-orange-sales-qty').textContent = orangeSalesQty;
+            if (document.getElementById('stat-orange-sales-weight')) document.getElementById('stat-orange-sales-weight').textContent = orangeSalesWeight.toLocaleString('th-TH');
+
+            if (document.getElementById('stat-orange-buy-amount')) document.getElementById('stat-orange-buy-amount').textContent = `฿${orangeBuyAmount.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+            if (document.getElementById('stat-orange-buy-qty')) document.getElementById('stat-orange-buy-qty').textContent = orangeBuyQty;
+            if (document.getElementById('stat-orange-buy-weight')) document.getElementById('stat-orange-buy-weight').textContent = orangeBuyWeight.toLocaleString('th-TH');
+
+            if (document.getElementById('stat-orange-processing-amount')) document.getElementById('stat-orange-processing-amount').textContent = `฿${orangeProcessingAmount.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+            if (document.getElementById('stat-other-services-amount')) document.getElementById('stat-other-services-amount').textContent = `฿${otherServicesAmount.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+
+            if (document.getElementById('stat-paid-amount')) document.getElementById('stat-paid-amount').textContent = `฿${totalPaid.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+            
+            const totalPending = totalAmount - totalPaid;
+            if (document.getElementById('stat-pending-amount')) document.getElementById('stat-pending-amount').textContent = `฿${totalPending.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+            if (document.getElementById('stat-pending-count')) document.getElementById('stat-pending-count').textContent = pendingCount;
+
+            const uniqueCustomers = new Set(records.map(r => r.customer).filter(Boolean));
+            if (document.getElementById('stat-customer-count')) document.getElementById('stat-customer-count').textContent = `${uniqueCustomers.size} ราย`;
+            if (document.getElementById('stat-total-weight-all')) document.getElementById('stat-total-weight-all').textContent = totalWeightAll.toLocaleString('th-TH');
+        }
+
+        function updateDailySummaryCards() {
+            const processContainer = document.getElementById('daily-process-container');
+            const salesContainer = document.getElementById('daily-sales-container');
+            const buyContainer = document.getElementById('daily-buy-container');
+            
+            const processMap = {};
+            const salesMap = {};
+            const buyMap = {};
+
+            const standardProcessingList = ['ทำส้ม', 'ล้างน้ำ', 'แว๊กซ์', 'ร่อนเบอร์', 'แว๊กซ์+กระดาษ', 'ร่อนเบอร์+กระดาษ', 'ล้างน้ำ+กระดาษ'];
+
+            records.forEach(r => {
+                const d = r.date || 'ไม่ระบุวันที่';
+                const s = r.service || '';
+                const amt = r.amount || 0;
+                const qty = r.qty || 0;
+
+                if (standardProcessingList.includes(s)) {
+                    if (!processMap[d]) processMap[d] = { count: 0, qty: 0, amount: 0 };
+                    processMap[d].count++;
+                    processMap[d].qty += qty;
+                    processMap[d].amount += amt;
+                } else if (s === 'ขายส้ม') {
+                    if (!salesMap[d]) salesMap[d] = { count: 0, qty: 0, amount: 0 };
+                    salesMap[d].count++;
+                    salesMap[d].qty += qty;
+                    salesMap[d].amount += amt;
+                } else if (s === 'ซื้อส้ม') {
+                    if (!buyMap[d]) buyMap[d] = { count: 0, qty: 0, amount: 0 };
+                    buyMap[d].count++;
+                    buyMap[d].qty += qty;
+                    buyMap[d].amount += amt;
+                }
+            });
+
+            if (processContainer) {
+                const keys = Object.keys(processMap);
+                document.getElementById('daily-process-count').textContent = `${keys.length} วัน`;
+                processContainer.innerHTML = keys.length === 0 ? '<p class="text-slate-400 text-center py-2">ไม่มีข้อมูลทำส้ม</p>' :
+                    keys.map(date => `
+                        <div class="bg-amber-50/60 p-2 rounded-xl border border-amber-200/60 flex justify-between items-center">
+                            <div>
+                                <span class="font-bold text-amber-900">${date}</span>
+                                <div class="text-[10px] text-amber-700">${processMap[date].count} บิล / ${processMap[date].qty} ตะกร้า</div>
+                            </div>
+                            <span class="font-extrabold text-orange-700">฿${processMap[date].amount.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}</span>
+                        </div>
+                    `).join('');
+            }
+
+            if (salesContainer) {
+                const keys = Object.keys(salesMap);
+                document.getElementById('daily-sales-count').textContent = `${keys.length} วัน`;
+                salesContainer.innerHTML = keys.length === 0 ? '<p class="text-slate-400 text-center py-2">ไม่มีข้อมูลขายส้ม</p>' :
+                    keys.map(date => `
+                        <div class="bg-orange-50/60 p-2 rounded-xl border border-orange-200/60 flex justify-between items-center">
+                            <div>
+                                <span class="font-bold text-orange-900">${date}</span>
+                                <div class="text-[10px] text-orange-700">${salesMap[date].count} บิล / ${salesMap[date].qty} ตะกร้า</div>
+                            </div>
+                            <span class="font-extrabold text-orange-700">฿${salesMap[date].amount.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}</span>
+                        </div>
+                    `).join('');
+            }
+
+            if (buyContainer) {
+                const keys = Object.keys(buyMap);
+                document.getElementById('daily-buy-count').textContent = `${keys.length} วัน`;
+                buyContainer.innerHTML = keys.length === 0 ? '<p class="text-slate-400 text-center py-2">ไม่มีข้อมูลซื้อส้ม</p>' :
+                    keys.map(date => `
+                        <div class="bg-indigo-50/60 p-2 rounded-xl border border-indigo-200/60 flex justify-between items-center">
+                            <div>
+                                <span class="font-bold text-indigo-900">${date}</span>
+                                <div class="text-[10px] text-indigo-700">${buyMap[date].count} บิล / ${buyMap[date].qty} ตะกร้า</div>
+                            </div>
+                            <span class="font-extrabold text-indigo-700">฿${buyMap[date].amount.toLocaleString('th-TH', {minimumFractionDigits:2, maximumFractionDigits:2})}</span>
+                        </div>
+                    `).join('');
+            }
+        }
+
         window.onload = function () {
             initDropdowns();
             renderGradeInputRows();
@@ -3671,11 +3613,140 @@
             updateDebtorSummaryCards();
             updateDailySummaryCards();
             document.getElementById('record-date').value = getCurrentThaiDate();
-            
-            if(navigator.onLine) {
-                loadFromGoogleSheet();
-            }
         };
+
+        function saveRecord(e) {
+            e.preventDefault();
+
+            const editId = document.getElementById('edit-id').value;
+            const recordDate = document.getElementById('record-date').value || getCurrentThaiDate();
+            
+            const customerSelect = document.getElementById('customer-select').value;
+            const customer = customerSelect === 'ADD_NEW' ? document.getElementById('custom-customer-input').value.trim() : customerSelect;
+            if (!customer) {
+                showToast('กรุณาระบุชื่อลูกค้า', 'error');
+                return;
+            }
+
+            const serviceSelect = document.getElementById('service-select').value;
+            const service = serviceSelect === 'ADD_NEW' ? document.getElementById('custom-service-input').value.trim() : serviceSelect;
+            if (!service) {
+                showToast('กรุณาระบุรายการบริการ', 'error');
+                return;
+            }
+
+            checkAndSyncServiceInGradeTask(service);
+
+            const fruitSelect = document.getElementById('fruit-type-select').value;
+            const fruitType = fruitSelect === 'ADD_NEW' ? document.getElementById('custom-fruit-input').value.trim() : fruitSelect;
+
+            const paySelect = document.getElementById('pay-method').value;
+            const payMethod = paySelect === 'ADD_NEW' ? document.getElementById('custom-pay-method-input').value.trim() : paySelect;
+
+            const garden = document.getElementById('garden').value.trim();
+            const inQty = parseFloat(document.getElementById('in-qty').value) || 0;
+            const qty = parseFloat(document.getElementById('qty').value) || 0;
+            const weight = parseFloat(document.getElementById('weight').value) || 0;
+            const basketFront = document.getElementById('basket-front').value.trim();
+            const basketName = document.getElementById('basket-name').value.trim();
+            const amount = parseFloat(document.getElementById('amount').value) || 0;
+            const paid = parseFloat(document.getElementById('paid').value) || 0;
+            const payDate = document.getElementById('pay-date').value;
+            const note = document.getElementById('note').value.trim();
+            const billImage = document.getElementById('bill-image-base64').value;
+            const cashAmount = parseFloat(document.getElementById('cash-amount').value) || 0;
+            const transferAmount = parseFloat(document.getElementById('transfer-amount').value) || 0;
+
+            const gradeDetails = [];
+            gradeList.forEach((gName, idx) => {
+                const q = parseFloat(document.getElementById(`g-qty-${idx}`)?.value) || 0;
+                const rem = parseFloat(document.getElementById(`g-rem-${idx}`)?.value) || 0;
+                const w = parseFloat(document.getElementById(`g-weight-${idx}`)?.value) || 0;
+                const p = parseFloat(document.getElementById(`g-price-${idx}`)?.value) || 0;
+                if (q > 0 || w > 0 || p > 0) {
+                    gradeDetails.push({ name: gName, qty: q, rem: rem, weight: w, price: p, rowTotal: w * p });
+                }
+            });
+
+            saveSnapshotForUndo();
+
+            if (editId) {
+                const idx = records.findIndex(r => String(r.id) === String(editId));
+                if (idx !== -1) {
+                    records[idx] = {
+                        ...records[idx],
+                        date: recordDate,
+                        customer,
+                        service,
+                        fruitType,
+                        garden,
+                        inQty,
+                        qty,
+                        weight,
+                        basketFront,
+                        basketName,
+                        amount,
+                        paid,
+                        payDate,
+                        payMethod,
+                        note,
+                        billImage: billImage || records[idx].billImage,
+                        cashAmount,
+                        transferAmount,
+                        gradeDetails
+                    };
+                    showToast('แก้ไขบันทึกข้อมูลเรียบร้อยแล้ว');
+                }
+            } else {
+                const newRecord = {
+                    id: Date.now(),
+                    date: recordDate,
+                    customer,
+                    service,
+                    fruitType,
+                    garden,
+                    inQty,
+                    qty,
+                    weight,
+                    basketFront,
+                    basketName,
+                    amount,
+                    paid,
+                    payDate,
+                    payMethod,
+                    note,
+                    billImage,
+                    cashAmount,
+                    transferAmount,
+                    gradeDetails
+                };
+                records.unshift(newRecord);
+                showToast('บันทึกข้อมูลบริการสำเร็จเรียบร้อย');
+            }
+
+            if (customerSelect === 'ADD_NEW' && customer && !customerList.includes(customer)) {
+                customerList.push(customer);
+                localStorage.setItem('orange_customer_list', JSON.stringify(customerList));
+            }
+            if (serviceSelect === 'ADD_NEW' && service && !customItemsList.includes(service)) {
+                customItemsList.push(service);
+                localStorage.setItem('orange_custom_items', JSON.stringify(customItemsList));
+            }
+            if (fruitSelect === 'ADD_NEW' && fruitType && !fruitTypeList.includes(fruitType)) {
+                fruitTypeList.push(fruitType);
+                localStorage.setItem('orange_fruit_type_list', JSON.stringify(fruitTypeList));
+            }
+
+            localStorage.setItem('orange_records', JSON.stringify(records));
+            if (window.saveToCloud) window.saveToCloud();
+
+            initDropdowns();
+            renderTable();
+            calculateKPIs();
+            updateDebtorSummaryCards();
+            updateDailySummaryCards();
+            resetForm();
+        }
     </script>
 
     <!-- Toast Notification Container -->
