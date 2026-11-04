@@ -1367,6 +1367,68 @@
         let recordToDeleteId = null;
         let currentModalImageSrc = '';
 
+        const GOOGLE_SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzhPH_xUXl9mDNIhb6WGR6QeIE2lkN-SGwhOdJsxJ0_6xXIh2_qG_Pc2ifk_zJuC0RQ7A/exec";
+
+        async function loadFromGoogleSheet() {
+            showToast('กำลังโหลดข้อมูลจาก Google Sheet...', 'info');
+            try {
+                // ปรับให้เป็น fetch ธรรมดา เพื่อลดปัญหาเรื่องโหมดในสภาพแวดล้อมต่างๆ
+                const response = await fetch(GOOGLE_SHEET_API_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                
+                if (data && Array.isArray(data)) {
+                    records = data;
+                    localStorage.setItem('orange_records', JSON.stringify(records));
+                    renderTable();
+                    calculateKPIs();
+                    updateDebtorSummaryCards();
+                    updateDailySummaryCards();
+                    showToast('โหลดข้อมูลจากคลาวด์สำเร็จแล้ว!', 'success');
+                }
+            } catch (error) {
+                console.error("Error loading from Google Sheet:", error);
+                showToast('ไม่สามารถดึงข้อมูลได้ (อาจติดข้อจำกัด CORS ในหน้า Preview) จะใช้ข้อมูลในเครื่องแทน', 'error');
+            }
+        }
+
+        async function syncToGoogleSheet() {
+            showToast('กำลังซิงค์ข้อมูลขึ้น Google Sheet...', 'info');
+            const btnText = document.getElementById('online-status-text');
+            if(btnText) btnText.textContent = 'กำลังซิงค์...';
+            
+            try {
+                const response = await fetch(GOOGLE_SHEET_API_URL, {
+                    method: 'POST',
+                    // เปลี่ยนจากการส่ง JSON เป็น text/plain เพื่อหลบเลี่ยง Preflight CORS Request
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8',
+                    },
+                    body: JSON.stringify({ records: records })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    showToast('ซิงค์ข้อมูลขึ้นคลาวด์สำเร็จ!', 'success');
+                    if(btnText) btnText.textContent = 'ออนไลน์ (เชื่อมต่อ Sheet แล้ว)';
+                } else {
+                    showToast('เกิดข้อผิดพลาดในการซิงค์', 'error');
+                    if(btnText) btnText.textContent = 'เชื่อมต่อล้มเหลว';
+                }
+            } catch (error) {
+                console.error("Error syncing to Google Sheet:", error);
+                showToast('ซิงค์ล้มเหลว กรุณาตรวจสอบอินเทอร์เน็ตหรือทดสอบบน GitHub Pages', 'error');
+                if(btnText) btnText.textContent = 'ระบบออฟไลน์';
+            }
+        }
+
         function refreshData() {
             records = JSON.parse(localStorage.getItem('orange_records')) || window.cloudRecords || [];
             renderTable();
@@ -1815,6 +1877,7 @@
             
             localStorage.setItem('orange_records', JSON.stringify(records));
             if (window.saveToCloud) window.saveToCloud();
+            syncToGoogleSheet();
 
             showToast(`ลบรายการของ "${customerName}" เรียบร้อยแล้ว`, 'error');
             renderTable();
@@ -3350,6 +3413,7 @@
 
             localStorage.setItem('orange_records', JSON.stringify(records));
             if (window.saveToCloud) window.saveToCloud();
+            syncToGoogleSheet();
 
             initDropdowns();
             resetForm();
@@ -3607,6 +3671,10 @@
             updateDebtorSummaryCards();
             updateDailySummaryCards();
             document.getElementById('record-date').value = getCurrentThaiDate();
+            
+            if(navigator.onLine) {
+                loadFromGoogleSheet();
+            }
         };
     </script>
 
